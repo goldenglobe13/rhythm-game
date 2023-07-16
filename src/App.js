@@ -1,10 +1,10 @@
 import "./App.css";
-import AnalogClock from "./components/analogClock";
+import Rhythm from "./components/Rhythm";
 
 function App() {
   return (
     <div>
-      <AnalogClock />
+      <Rhythm />
     </div>
   );
 }
