@@ -1,0 +1,11 @@
+button {
+  width: 10rem;
+  height: 5rem;
+  font-size: 2rem;
+  background-color: pink;
+  outline: none;
+  border: none;
+  border-radius: 0.5rem;
+  display: block;
+  margin: 1rem auto;
+}

@@ -3,29 +3,11 @@ import "./Rhythm.css";
 import ReactHammer from "react-hammerjs";
 
 // const r = document.querySelector(":root");
-const notesDisp = [
-  // { x: 100, time: 0, id: 1, type: "swipe", height: 400 },
-  { x: 280, time: 0, id: 1, sw: 1 },
-  { h: true, x1: 280, x2: 120, time: 0, id: 2 },
-  { x: 120, time: 1000, id: 3, sw: 1, moveId: 1 },
-  { h: true, x1: 120, x2: 280, time: 1000, id: 4 },
-  { x: 280, time: 2000, id: 5, sw: 1, endId: 1 },
-  // { h: true, x1: 120, x2: 280, time: 1000, id: 4 },
-  // { x: 120, time: 0, id: 4, sw: 2 },
-  // { x: 120, time: 100, id: 5, sw: 2 },
-  // { x: 120, time: 200, id: 6, sw: 2 },
-  // { x: 280, time: 0, id: 2 },
-  // { x: 280, time: 1000, id: 3 },
-  // { x: 110, time: 1300, id: 4 },
-  // { x: 275, time: 1300, id: 5 },
-];
-
 const notes = [
   // { x: 100, time: 0, id: 1, type: "swipe", height: 400 },
   { x: 280, time: 0, id: 1, sw: 1 },
-  { x: 120, time: 1000, id: 3, sw: 1, moveId: 1 },
-  { x: 280, time: 2000, id: 5, sw: 1, endId: 1 },
-  // { h: true, x1: 120, x2: 280, time: 1000, id: 4 },
+  { x: 280, time: 100, id: 2, sw: 1 },
+  { x: 280, time: 200, id: 3, sw: 1 },
   // { x: 120, time: 0, id: 4, sw: 2 },
   // { x: 120, time: 100, id: 5, sw: 2 },
   // { x: 120, time: 200, id: 6, sw: 2 },
@@ -40,19 +22,13 @@ const Rhythm = ({ start }) => {
   const [listPer, setListPer] = useState([]);
   const [acceptedList, setAcceptedList] = useState([]);
   const [pressList, setPressList] = useState([]);
-  const [beats, setBeats] = useState(notes);
-  const [endList, setEndList] = useState([]);
-  const [moveList, setMoveList] = useState([]);
 
   console.log("Top");
 
-  // console.log(list);
-  // console.log(listPer);
-  // console.log(pressList);
-  // console.log(endList);
-  // console.log(beats);
-  // console.log(moveList);
+  console.log(list);
+  console.log(listPer);
   console.log(acceptedList);
+  console.log(pressList);
 
   const touchStartHandler = (e) => {
     console.log(e);
@@ -78,7 +54,6 @@ const Rhythm = ({ start }) => {
         return ch.includes(item.identifier) ? k[0] : item;
       })
     );
-    setMoveList([{ touch: [...e.changedTouches] }]);
   };
 
   const touchEndHandler = (e) => {
@@ -91,7 +66,7 @@ const Rhythm = ({ start }) => {
         (item) => item.identifier !== e.changedTouches[0].identifier
       );
     });
-    setEndList((prevState) => [...prevState, { touch: [...e.changedTouches] }]);
+    // setEndList((prevState) => [...prevState, e.changedTouches[0]]);
   };
 
   const touchCancelHandler = (e) => {
@@ -101,78 +76,6 @@ const Rhythm = ({ start }) => {
 
   useEffect(() => {
     if (acceptedList.length < notes.length + 1) {
-      if (moveList.length > 0) {
-        const filteredNotes = notes.filter(
-          (item) => item.moveId === Number(moveList[0]?.touch[0].target.id)
-        );
-        if (filteredNotes.length === 0) {
-          setMoveList([]);
-          return;
-        }
-        const filteredAccepted = acceptedList.filter(
-          (item) => item?.realId === Number(filteredNotes[0].id)
-        );
-        if (filteredAccepted.length > 0) {
-          setMoveList([]);
-          return;
-        }
-        console.log(filteredNotes);
-        const diffZero = Math.abs(
-          moveList[0]?.touch[0].pageX -
-            filteredNotes[0]?.x +
-            moveList[0]?.touch[0].pageY -
-            322
-        );
-        if (diffZero >= 30) return;
-
-        setAcceptedList((prevState) => [
-          ...prevState,
-          {
-            touch: moveList[0]?.touch[0],
-            realId: filteredNotes[0].id,
-            endType: true,
-            quality:
-              diffZero < 30 ? (diffZero < 15 ? "Perfect" : "Good") : "Miss",
-          },
-        ]);
-        setMoveList([]);
-        setBeats((prevState) =>
-          [...prevState].filter(
-            (item) => item.moveId === Number(moveList[0]?.touch[0].target.id)
-          )
-        );
-      }
-
-      if (endList.length > 0) {
-        const filteredNotes = notes.filter(
-          (item) => item.endId === Number(endList[0]?.touch[0].target.id)
-        );
-        if (filteredNotes.length === 0) return;
-        console.log(filteredNotes);
-        const diffZero = Math.abs(
-          endList[0]?.touch[0].pageX -
-            filteredNotes[0]?.x +
-            endList[0]?.touch[0].pageY -
-            322
-        );
-        setAcceptedList((prevState) => [
-          ...prevState,
-          {
-            touch: endList[0]?.touch[0],
-            realId: filteredNotes[0].id,
-            endType: true,
-            quality:
-              diffZero < 30 ? (diffZero < 15 ? "Perfect" : "Good") : "Miss",
-          },
-        ]);
-        setEndList([]);
-        setBeats((prevState) =>
-          [...prevState].filter(
-            (item) => item.endId === Number(endList[0]?.touch[0].target.id)
-          )
-        );
-      }
-
       console.log(listPer);
       console.log(list);
       const filteredListPer = listPer.filter(
@@ -263,23 +166,12 @@ const Rhythm = ({ start }) => {
         } else return;
       } else return;
     } else return;
-  }, [
-    listPer,
-    acceptedList.length,
-    start,
-    acceptedList,
-    list,
-    endList,
-    moveList,
-  ]);
+  }, [listPer, acceptedList.length, start, acceptedList, list]);
 
   const missHandler = (id) => {
-    console.log(id.target.id);
-    console.log(acceptedList);
-    const filteredAcceptedList = acceptedList.filter((item) =>
-      item?.endType
-        ? item?.realId === Number(id.target.id)
-        : item?.touch[0]?.target.id === id.target.id
+    console.log(id.target);
+    const filteredAcceptedList = acceptedList.filter(
+      (item) => item?.touch[0]?.target === id.target
     );
     console.log(filteredAcceptedList);
     if (filteredAcceptedList.length > 0) {
@@ -305,9 +197,9 @@ const Rhythm = ({ start }) => {
     console.log("PressedUp");
   };
 
-  const clickHandler = (id) => {
-    console.log(id);
-    setBeats((prevState) => [...prevState].filter((item) => item.id !== id));
+  const swipeHandler = (e) => {
+    console.log(e);
+    console.log("Swiped");
   };
 
   return (
@@ -318,7 +210,7 @@ const Rhythm = ({ start }) => {
         recognizers: {
           tap: {
             time: 3000,
-            threshold: 100,
+            threshold: 10,
           },
         },
       }}
@@ -330,20 +222,6 @@ const Rhythm = ({ start }) => {
         onTouchCancel={touchCancelHandler}
         onTouchMove={touchMoveHandler}
       >
-        {/* <svg style={{ width: "1000", height: "1000" }}>
-          <line
-            style={{
-              fill: "red",
-              stroke: "white",
-              strokeWidth: "2rem",
-              zIndex: 2,
-            }}
-            x1="100"
-            y1="100"
-            x2="180"
-            y2="322"
-          ></line>
-        </svg> */}
         {list.map((touch, i) => {
           return (
             <div
@@ -361,62 +239,30 @@ const Rhythm = ({ start }) => {
           }}
           className="playArea"
         ></div>
-
         {start &&
-          notesDisp.map((item, i) => {
-            if (item.h) {
+          notes.map((item, i) => {
+            if (item.sw) {
               return (
-                <svg
-                  className="lineA"
-                  id={item.id}
-                  key={item.id}
-                  style={{
-                    // backgroundColor: "red",
-                    width: "1000",
-                    height: "1000",
-                    animationDelay: `${item.time}ms`,
-                    top: `-148px`,
-                    animationDuration: `${2400}ms`,
+                <div
+                  onAnimationEnd={(id) => {
+                    missHandler(id);
                   }}
-                >
-                  <line
-                    style={{
-                      fill: "red",
-                      stroke: "white",
-                      strokeWidth: "2rem",
-                      position: "relative",
-                      zIndex: 2,
-                    }}
-                    x1={item.x2}
-                    y1="71"
-                    x2={item.x1}
-                    y2="500"
-                  ></line>
-                </svg>
-                // <div
-                //   key={item.id}
-                //   id={item.id}
-                //   className="Bdot"
-                //   style={{
-                //     left: `${beats[i - 1].x}px`,
-                //     animationDelay: `${beats[i - 1].time + 1400}ms`,
-                //     width: "4rem",
-                //     // transform: "translateY(-100%)",
-                //     // height: `${item.height}px`,
-                //     // borderRadius: "0.5rem",
-                //     // animationName: "swipeMoving",
-                //   }}
-                // ></div>
+                  key={item.id}
+                  id={item.id}
+                  className="Bdot"
+                  style={{
+                    left: `${item.x}px`,
+                    animationDelay: `${item.time}ms`,
+                    // transform: "translateY(-100%)",
+                    // height: `${item.height}px`,
+                    // borderRadius: "0.5rem",
+                    // animationName: "swipeMoving",
+                  }}
+                ></div>
               );
             } else {
               return (
                 <div
-                  onClick={(e, id) => {
-                    console.log(item.id);
-                    console.log(e);
-                    e.preventDefault();
-                    clickHandler(item.id);
-                  }}
                   onAnimationEnd={(id) => {
                     missHandler(id);
                   }}
@@ -431,64 +277,6 @@ const Rhythm = ({ start }) => {
               );
             }
           })}
-        {/* {start &&
-          beats.map((item, i) => {
-            if (item.sw) {
-              return (
-                <ReactHammer
-                  key={item.id}
-                  onPress={pressHandler}
-                  onPressUp={pressUpHandler}
-                  options={{
-                    recognizers: {
-                      tap: {
-                        time: 300,
-                        threshold: 100,
-                      },
-                    },
-                  }}
-                >
-                  <div
-                    onClick={(e, id) => {
-                      console.log(item.id);
-                      console.log(e);
-                      e.preventDefault();
-                      clickHandler(item.id);
-                    }}
-                    onAnimationEnd={(id) => {
-                      missHandler(id);
-                    }}
-                    key={item.id}
-                    id={item.id}
-                    className="Bdot"
-                    style={{
-                      left: `${item.x}px`,
-                      animationDelay: `${item.time}ms`,
-                      // transform: "translateY(-100%)",
-                      // height: `${item.height}px`,
-                      // borderRadius: "0.5rem",
-                      // animationName: "swipeMoving",
-                    }}
-                  ></div>
-                </ReactHammer>
-              );
-            } else {
-              return (
-                <div
-                  onAnimationEnd={(id) => {
-                    missHandler(id);
-                  }}
-                  key={item.id}
-                  id={item.id}
-                  className="Bdot"
-                  style={{
-                    left: `${item.x}px`,
-                    animationDelay: `${item.time}ms`,
-                  }}
-                ></div>
-              );
-            }
-          })} */}
         <div
           style={{
             backgroundColor: "white",

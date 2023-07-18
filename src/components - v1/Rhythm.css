@@ -47,22 +47,6 @@ body {
   animation-timing-function: linear;
 }
 
-.lineA {
-  position: absolute;
-  transform: translateY(-50%);
-  animation-name: lineMoving;
-  animation-timing-function: linear;
-}
-
-@keyframes lineMoving {
-  0% {
-  }
-
-  100% {
-    top: 880.6px;
-  }
-}
-
 @keyframes moving {
   0% {
     top: -148px;
@@ -70,6 +54,16 @@ body {
 
   100% {
     top: 452px;
+  }
+}
+
+@keyframes swipeMoving {
+  0% {
+    top: -148px;
+  }
+
+  100% {
+    top: 820px;
   }
 }
 
