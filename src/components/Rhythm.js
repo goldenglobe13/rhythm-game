@@ -5,10 +5,26 @@ import "./Rhythm.css";
 const notesDisp = [
   // { x: 100, time: 0, id: 1, type: "swipe", height: 400 },
   { x: 280, time: 0, id: 1, sw: 1 },
-  { h: true, x1: 280, x2: 120, time: 0, id: 2 },
+  {
+    h: true,
+    x1: 280,
+    x2: 120,
+    time: 0,
+    id: 2,
+    dTime: 1000,
+    animName: 1,
+  },
   { x: 120, time: 1000, id: 3, sw: 1, moveId: 1 },
-  { h: true, x1: 120, x2: 280, time: 1000, id: 4 },
-  { x: 280, time: 2000, id: 5, sw: 1, endId: 1 },
+  {
+    h: true,
+    x1: 120,
+    x2: 280,
+    time: 1000,
+    id: 4,
+    dTime: 2000,
+    animName: 2,
+  },
+  { x: 280, time: 3000, id: 5, sw: 1, endId: 1 },
   // { h: true, x1: 120, x2: 280, time: 1000, id: 4 },
   // { x: 120, time: 0, id: 4, sw: 2 },
   // { x: 120, time: 100, id: 5, sw: 2 },
@@ -38,19 +54,20 @@ const Rhythm = ({ start }) => {
   const [list, setList] = useState([]);
   const [listPer, setListPer] = useState([]);
   const [acceptedList, setAcceptedList] = useState([]);
-  const [pressList, setPressList] = useState([]);
+  // const [pressList, setPressList] = useState([]);
   const [beats, setBeats] = useState(notes);
   const [endList, setEndList] = useState([]);
   const [moveList, setMoveList] = useState([]);
 
   console.log("Top");
 
-  // console.log(list);
-  // console.log(listPer);
   // console.log(pressList);
-  // console.log(endList);
-  // console.log(beats);
-  // console.log(moveList);
+
+  console.log(list);
+  console.log(listPer);
+  console.log(endList);
+  console.log(beats);
+  console.log(moveList);
   console.log(acceptedList);
 
   const touchStartHandler = (e) => {
@@ -294,15 +311,15 @@ const Rhythm = ({ start }) => {
     }
   };
 
-  const pressHandler = (e) => {
-    console.log(e);
-    console.log("Pressed");
-  };
+  // const pressHandler = (e) => {
+  //   console.log(e);
+  //   console.log("Pressed");
+  // };
 
-  const pressUpHandler = (e) => {
-    console.log(e);
-    console.log("PressedUp");
-  };
+  // const pressUpHandler = (e) => {
+  //   console.log(e);
+  //   console.log("PressedUp");
+  // };
 
   const clickHandler = (id) => {
     console.log(id);
@@ -371,11 +388,15 @@ const Rhythm = ({ start }) => {
                 key={item.id}
                 style={{
                   // backgroundColor: "red",
+                  // "--1-slide-top": `calc(2400px + 148px)`,
+                  "--8-slide-top": `calc((1400px + ${item.dTime}px)*3/7 - 148px)`,
+                  "--9-slide-top": `1309px`,
                   width: "1000",
-                  height: "1000",
+                  height: "5000",
                   animationDelay: `${item.time}ms`,
+                  animationName: `slide-${item.animName}`,
                   top: `-148px`,
-                  animationDuration: `${2400}ms`,
+                  animationDuration: `calc(var(--base-duration) + ${item.dTime}ms)`,
                 }}
               >
                 <line
@@ -387,9 +408,9 @@ const Rhythm = ({ start }) => {
                     zIndex: 2,
                   }}
                   x1={item.x2}
-                  y1="71"
+                  y1={2500 - (item.dTime * 3) / 7}
                   x2={item.x1}
-                  y2="500"
+                  y2="2500"
                 ></line>
               </svg>
               // <div

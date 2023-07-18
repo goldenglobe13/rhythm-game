@@ -1,7 +1,8 @@
-/* :root {
-  --top: 0px;
-  --left: 0px;
-} */
+:root {
+  --1-slide-top: 0px;
+  --2-slide-top: 0px;
+  --base-duration: 1400ms;
+}
 
 html,
 body {
@@ -43,25 +44,42 @@ body {
   top: -148px;
   z-index: 3;
   animation-name: moving;
-  animation-duration: 1400ms;
+  animation-duration: var(--base-duration);
   animation-timing-function: linear;
 }
 
 .lineA {
   position: absolute;
   transform: translateY(-50%);
-  animation-name: lineMoving;
   animation-timing-function: linear;
 }
 
-@keyframes lineMoving {
+@keyframes slide-1 {
+  0% {
+  }
+
+  100% {
+    top: var(--8-slide-top);
+  }
+}
+
+@keyframes slide-2 {
+  0% {
+  }
+
+  100% {
+    top: var(--9-slide-top);
+  }
+}
+
+/* @keyframes lineMoving {
   0% {
   }
 
   100% {
     top: 880.6px;
   }
-}
+} */
 
 @keyframes moving {
   0% {
