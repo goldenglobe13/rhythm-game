@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import "./Rhythm.css";
-import ReactHammer from "react-hammerjs";
 
 // const r = document.querySelector(":root");
 const notesDisp = [
@@ -311,26 +310,26 @@ const Rhythm = ({ start }) => {
   };
 
   return (
-    <ReactHammer
-      onPress={pressHandler}
-      onPressUp={pressUpHandler}
-      options={{
-        recognizers: {
-          tap: {
-            time: 3000,
-            threshold: 100,
-          },
-        },
-      }}
+    // <ReactHammer
+    //   onPress={pressHandler}
+    //   onPressUp={pressUpHandler}
+    //   options={{
+    //     recognizers: {
+    //       tap: {
+    //         time: 3000,
+    //         threshold: 100,
+    //       },
+    //     },
+    //   }}
+    // >
+    <div
+      className="touchContainer"
+      onTouchStart={touchStartHandler}
+      onTouchEnd={touchEndHandler}
+      onTouchCancel={touchCancelHandler}
+      onTouchMove={touchMoveHandler}
     >
-      <div
-        className="touchContainer"
-        onTouchStart={touchStartHandler}
-        onTouchEnd={touchEndHandler}
-        onTouchCancel={touchCancelHandler}
-        onTouchMove={touchMoveHandler}
-      >
-        {/* <svg style={{ width: "1000", height: "1000" }}>
+      {/* <svg style={{ width: "1000", height: "1000" }}>
           <line
             style={{
               fill: "red",
@@ -344,94 +343,94 @@ const Rhythm = ({ start }) => {
             y2="322"
           ></line>
         </svg> */}
-        {list.map((touch, i) => {
-          return (
-            <div
-              style={{ left: `${touch.pageX}px`, top: `${touch.pageY}px` }}
-              className="dot"
-              id={touch.identifier}
-              key={touch.identifier}
-            ></div>
-          );
-        })}
-        <div
-          style={{
-            top: `
+      {list.map((touch, i) => {
+        return (
+          <div
+            style={{ left: `${touch.pageX}px`, top: `${touch.pageY}px` }}
+            className="dot"
+            id={touch.identifier}
+            key={touch.identifier}
+          ></div>
+        );
+      })}
+      <div
+        style={{
+          top: `
         300px`,
-          }}
-          className="playArea"
-        ></div>
+        }}
+        className="playArea"
+      ></div>
 
-        {start &&
-          notesDisp.map((item, i) => {
-            if (item.h) {
-              return (
-                <svg
-                  className="lineA"
-                  id={item.id}
-                  key={item.id}
+      {start &&
+        notesDisp.map((item, i) => {
+          if (item.h) {
+            return (
+              <svg
+                className="lineA"
+                id={item.id}
+                key={item.id}
+                style={{
+                  // backgroundColor: "red",
+                  width: "1000",
+                  height: "1000",
+                  animationDelay: `${item.time}ms`,
+                  top: `-148px`,
+                  animationDuration: `${2400}ms`,
+                }}
+              >
+                <line
                   style={{
-                    // backgroundColor: "red",
-                    width: "1000",
-                    height: "1000",
-                    animationDelay: `${item.time}ms`,
-                    top: `-148px`,
-                    animationDuration: `${2400}ms`,
+                    fill: "red",
+                    stroke: "white",
+                    strokeWidth: "2rem",
+                    position: "relative",
+                    zIndex: 2,
                   }}
-                >
-                  <line
-                    style={{
-                      fill: "red",
-                      stroke: "white",
-                      strokeWidth: "2rem",
-                      position: "relative",
-                      zIndex: 2,
-                    }}
-                    x1={item.x2}
-                    y1="71"
-                    x2={item.x1}
-                    y2="500"
-                  ></line>
-                </svg>
-                // <div
-                //   key={item.id}
-                //   id={item.id}
-                //   className="Bdot"
-                //   style={{
-                //     left: `${beats[i - 1].x}px`,
-                //     animationDelay: `${beats[i - 1].time + 1400}ms`,
-                //     width: "4rem",
-                //     // transform: "translateY(-100%)",
-                //     // height: `${item.height}px`,
-                //     // borderRadius: "0.5rem",
-                //     // animationName: "swipeMoving",
-                //   }}
-                // ></div>
-              );
-            } else {
-              return (
-                <div
-                  onClick={(e, id) => {
-                    console.log(item.id);
-                    console.log(e);
-                    e.preventDefault();
-                    clickHandler(item.id);
-                  }}
-                  onAnimationEnd={(id) => {
-                    missHandler(id);
-                  }}
-                  key={item.id}
-                  id={item.id}
-                  className="Bdot"
-                  style={{
-                    left: `${item.x}px`,
-                    animationDelay: `${item.time}ms`,
-                  }}
-                ></div>
-              );
-            }
-          })}
-        {/* {start &&
+                  x1={item.x2}
+                  y1="71"
+                  x2={item.x1}
+                  y2="500"
+                ></line>
+              </svg>
+              // <div
+              //   key={item.id}
+              //   id={item.id}
+              //   className="Bdot"
+              //   style={{
+              //     left: `${beats[i - 1].x}px`,
+              //     animationDelay: `${beats[i - 1].time + 1400}ms`,
+              //     width: "4rem",
+              //     // transform: "translateY(-100%)",
+              //     // height: `${item.height}px`,
+              //     // borderRadius: "0.5rem",
+              //     // animationName: "swipeMoving",
+              //   }}
+              // ></div>
+            );
+          } else {
+            return (
+              <div
+                onClick={(e, id) => {
+                  console.log(item.id);
+                  console.log(e);
+                  e.preventDefault();
+                  clickHandler(item.id);
+                }}
+                onAnimationEnd={(id) => {
+                  missHandler(id);
+                }}
+                key={item.id}
+                id={item.id}
+                className="Bdot"
+                style={{
+                  left: `${item.x}px`,
+                  animationDelay: `${item.time}ms`,
+                }}
+              ></div>
+            );
+          }
+        })}
+      {/* {start &&
           beats.map((item, i) => {
             if (item.sw) {
               return (
@@ -489,18 +488,18 @@ const Rhythm = ({ start }) => {
               );
             }
           })} */}
-        <div
-          style={{
-            backgroundColor: "white",
-            textAlign: "center",
-            height: "2rem",
-            fontSize: "1.6rem",
-          }}
-        >
-          {acceptedList[acceptedList?.length - 1]?.quality}
-        </div>
+      <div
+        style={{
+          backgroundColor: "white",
+          textAlign: "center",
+          height: "2rem",
+          fontSize: "1.6rem",
+        }}
+      >
+        {acceptedList[acceptedList?.length - 1]?.quality}
       </div>
-    </ReactHammer>
+    </div>
+    // </ReactHammer>
   );
 };
 
