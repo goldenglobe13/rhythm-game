@@ -3,7 +3,6 @@ import "./Rhythm.css";
 
 // const r = document.querySelector(":root");
 const notesDisp = [
-  // { x: 100, time: 0, id: 1, type: "swipe", height: 400 },
   { x: 280, time: 0, id: 1, sw: 1 },
   {
     h: true,
@@ -12,7 +11,6 @@ const notesDisp = [
     time: 0,
     id: 2,
     dTime: 1000,
-    animName: 1,
   },
   { x: 120, time: 1000, id: 3, sw: 1, moveId: 1 },
   {
@@ -22,17 +20,18 @@ const notesDisp = [
     time: 1000,
     id: 4,
     dTime: 2000,
-    animName: 2,
   },
   { x: 280, time: 3000, id: 5, sw: 1, endId: 1 },
-  // { h: true, x1: 120, x2: 280, time: 1000, id: 4 },
-  // { x: 120, time: 0, id: 4, sw: 2 },
-  // { x: 120, time: 100, id: 5, sw: 2 },
-  // { x: 120, time: 200, id: 6, sw: 2 },
-  // { x: 280, time: 0, id: 2 },
-  // { x: 280, time: 1000, id: 3 },
-  // { x: 110, time: 1300, id: 4 },
-  // { x: 275, time: 1300, id: 5 },
+  { x: 160, time: 3500, id: 6, sw: 1 },
+  {
+    h: true,
+    x1: 160,
+    x2: 20,
+    time: 3500,
+    id: 7,
+    dTime: 1000,
+  },
+  { x: 20, time: 4500, id: 8, sw: 1, endId: 6 },
 ];
 
 const notes = [
@@ -40,14 +39,8 @@ const notes = [
   { x: 280, time: 0, id: 1, sw: 1 },
   { x: 120, time: 1000, id: 3, sw: 1, moveId: 1 },
   { x: 280, time: 2000, id: 5, sw: 1, endId: 1 },
-  // { h: true, x1: 120, x2: 280, time: 1000, id: 4 },
-  // { x: 120, time: 0, id: 4, sw: 2 },
-  // { x: 120, time: 100, id: 5, sw: 2 },
-  // { x: 120, time: 200, id: 6, sw: 2 },
-  // { x: 280, time: 0, id: 2 },
-  // { x: 280, time: 1000, id: 3 },
-  // { x: 110, time: 1300, id: 4 },
-  // { x: 275, time: 1300, id: 5 },
+  { x: 160, time: 3500, id: 6, sw: 1 },
+  { x: 20, time: 4500, id: 8, sw: 1, endId: 6 },
 ];
 
 const Rhythm = ({ start }) => {
@@ -163,7 +156,10 @@ const Rhythm = ({ start }) => {
         const filteredNotes = notes.filter(
           (item) => item.endId === Number(endList[0]?.touch[0].target.id)
         );
-        if (filteredNotes.length === 0) return;
+        if (filteredNotes.length === 0) {
+          setEndList([]);
+          return;
+        }
         console.log(filteredNotes);
         const diffZero = Math.abs(
           endList[0]?.touch[0].pageX -
@@ -276,7 +272,10 @@ const Rhythm = ({ start }) => {
             setListPer([]);
             // }
           }
-        } else return;
+        } else {
+          setListPer([]);
+          return;
+        }
       } else return;
     } else return;
   }, [
@@ -387,14 +386,10 @@ const Rhythm = ({ start }) => {
                 id={item.id}
                 key={item.id}
                 style={{
-                  // backgroundColor: "red",
-                  // "--1-slide-top": `calc(2400px + 148px)`,
-                  "--8-slide-top": `calc((1400px + ${item.dTime}px)*3/7 - 148px)`,
-                  "--9-slide-top": `1309px`,
+                  "--1-slide-top": `calc((1400px + ${item.dTime}px)*3/7 - 148px)`,
                   width: "1000",
                   height: "5000",
                   animationDelay: `${item.time}ms`,
-                  animationName: `slide-${item.animName}`,
                   top: `-148px`,
                   animationDuration: `calc(var(--base-duration) + ${item.dTime}ms)`,
                 }}

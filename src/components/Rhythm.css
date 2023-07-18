@@ -1,6 +1,4 @@
 :root {
-  --1-slide-top: 0px;
-  --2-slide-top: 0px;
   --base-duration: 1400ms;
 }
 
@@ -52,25 +50,26 @@ body {
   position: absolute;
   transform: translateY(-50%);
   animation-timing-function: linear;
+  animation-name: slide;
 }
 
-@keyframes slide-1 {
+@keyframes slide {
   0% {
   }
 
   100% {
-    top: var(--8-slide-top);
+    top: var(--1-slide-top);
   }
 }
 
-@keyframes slide-2 {
+/* @keyframes slide-2 {
   0% {
   }
 
   100% {
-    top: var(--9-slide-top);
+    top: var(--1-slide-top);
   }
-}
+} */
 
 /* @keyframes lineMoving {
   0% {
