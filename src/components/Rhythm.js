@@ -145,7 +145,7 @@ const Rhythm = ({ start }) => {
   };
 
   useEffect(() => {
-    if (acceptedList.length < notes.length + 1) {
+    if (acceptedList.length < notes.length) {
       if (moveList.length > 0) {
         const filteredNotes = notes.filter(
           (item) =>
@@ -411,6 +411,7 @@ const Rhythm = ({ start }) => {
                 quality:
                   diffOne < 30 ? (diffOne < 15 ? "Perfect" : "Good") : "Miss",
                 type: filteredNotes[0]?.type || "",
+                tapId: filteredTapList[1].touch[0].target.id,
               },
             ]);
             setTapList([]);
@@ -433,6 +434,7 @@ const Rhythm = ({ start }) => {
                 quality:
                   diffZero < 30 ? (diffZero < 15 ? "Perfect" : "Good") : "Miss",
                 type: filteredNotes[0]?.type || "",
+                tapId: filteredTapList[0].touch[0].target.id,
               },
             ]);
             setTapList([]);
@@ -494,12 +496,13 @@ const Rhythm = ({ start }) => {
               holdList[1]?.touch[0].pageY -
               322
           );
-          const diffDuration = Math.abs(
-            holdList[1]?.dur - filteredNotes[0]?.time - 1120
-          );
-          console.log(diffDuration);
-          console.log(diffOne);
-          if (diffOne >= 30 || diffDuration > 300) return;
+          // const diffDuration = Math.abs(
+          //   holdList[1]?.dur - filteredNotes[0]?.time - 1120
+          // );
+          // console.log(diffDuration);
+          // console.log(diffOne);
+          // if (diffOne >= 30 || diffDuration > 300) return;
+          if (diffOne >= 30) return;
 
           setAcceptedList((prevState) => [
             ...prevState,
@@ -534,12 +537,13 @@ const Rhythm = ({ start }) => {
               holdList[0]?.touch[0].pageY -
               322
           );
-          const diffDuration = Math.abs(
-            holdList[0]?.dur - filteredNotes[0]?.time - 1120
-          );
-          console.log(diffDuration);
-          console.log(diffZero);
-          if (diffZero >= 30 || diffDuration > 300) return;
+          // const diffDuration = Math.abs(
+          //   holdList[0]?.dur - filteredNotes[0]?.time - 1120
+          // );
+          // console.log(diffDuration);
+          // console.log(diffZero);
+          // if (diffZero >= 30 || diffDuration > 300) return;
+          if (diffZero >= 30) return;
 
           setAcceptedList((prevState) => [
             ...prevState,
@@ -572,24 +576,27 @@ const Rhythm = ({ start }) => {
   ]);
 
   const missHandler = (id) => {
-    console.log(id.target.id);
-    console.log(acceptedList);
-    const filteredAcceptedList = acceptedList.filter((item) =>
-      item?.endType
-        ? item?.realId === Number(id.target.id)
-        : item?.touch[0]?.target.id === id.target.id
-    );
-    console.log(filteredAcceptedList);
-    if (filteredAcceptedList.length > 0) {
-      return;
-    } else {
-      setAcceptedList((prevState) => [
-        ...prevState,
-        {
-          touch: [{ target: id.target }],
-          quality: "Miss",
-        },
-      ]);
+    if (acceptedList.length < notes.length) {
+      console.log(id.target.id);
+      console.log(acceptedList);
+      const filteredAcceptedList = acceptedList.filter((item) =>
+        item?.endType
+          ? item?.realId === Number(id.target.id)
+          : item?.touch[0]?.target.id === id.target.id
+      );
+      console.log(filteredAcceptedList);
+      if (filteredAcceptedList.length > 0) {
+        return;
+      } else {
+        setAcceptedList((prevState) => [
+          ...prevState,
+          {
+            touch: [{ target: id.target }],
+            missId: id.target.id,
+            quality: "Miss",
+          },
+        ]);
+      }
     }
   };
 
@@ -656,13 +663,14 @@ const Rhythm = ({ start }) => {
                 }}
               >
                 <line
-                  style={{
-                    fill: "red",
-                    stroke: "white",
-                    strokeWidth: "2rem",
-                    position: "relative",
-                    zIndex: 2,
-                  }}
+                  className="lineStroke"
+                  // style={{
+                  //   fill: "red",
+                  //   stroke: "white",
+                  //   strokeWidth: "2rem",
+                  //   position: "relative",
+                  //   zIndex: 2,
+                  // }}
                   x1={item.x2}
                   y1={2500 - (item.dTime * 3) / 7}
                   x2={item.x1}
