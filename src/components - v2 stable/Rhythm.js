@@ -54,16 +54,17 @@ const notes = [
 
 const Rhythm = ({ start }) => {
   const [list, setList] = useState([]);
+  const [listPer, setListPer] = useState([]);
   const [acceptedList, setAcceptedList] = useState([]);
   const [beats, setBeats] = useState(notes);
-  const [tapList, setTapList] = useState([]);
   const [endList, setEndList] = useState([]);
   const [moveList, setMoveList] = useState([]);
   const [holdList, setHoldList] = useState([]);
 
   console.log("Top");
 
-  console.log(tapList);
+  console.log(list);
+  console.log(listPer);
   console.log(endList);
   console.log(beats);
   console.log(moveList);
@@ -75,7 +76,7 @@ const Rhythm = ({ start }) => {
     const dur = new Date().getTime() - start;
     console.log("start");
     setList((prevState) => [...prevState, ...e.changedTouches]);
-    setTapList((prevState) => [
+    setListPer((prevState) => [
       ...prevState,
       { touch: [...e.changedTouches], dur: dur },
     ]);
@@ -98,6 +99,7 @@ const Rhythm = ({ start }) => {
         return ch.includes(item.identifier) ? k[0] : item;
       })
     );
+    // setMoveList([{ touch: [...e.changedTouches] }]);
     setMoveList((prevState) =>
       [...prevState].map((item, i) => {
         const k = [...e.changedTouches].filter(
@@ -106,7 +108,6 @@ const Rhythm = ({ start }) => {
         return ch.includes(item.identifier) ? k[0] : item;
       })
     );
-
     setHoldList((prevState) =>
       [...prevState].map((item, i) => {
         const k = [...e.changedTouches].filter(
@@ -118,7 +119,6 @@ const Rhythm = ({ start }) => {
   };
 
   const touchEndHandler = (e) => {
-    const dur = new Date().getTime() - start;
     console.log(e);
     console.log("end");
     const ch = [...e.changedTouches].map((item) => item.identifier);
@@ -128,10 +128,7 @@ const Rhythm = ({ start }) => {
         (item) => item.identifier !== e.changedTouches[0].identifier
       );
     });
-    setEndList((prevState) => [
-      ...prevState,
-      { touch: [...e.changedTouches], dur: dur },
-    ]);
+    setEndList((prevState) => [...prevState, { touch: [...e.changedTouches] }]);
     setHoldList((prevState) => {
       return [...prevState].filter(
         (item) => item?.touch[0]?.identifier !== e.changedTouches[0].identifier
@@ -141,16 +138,14 @@ const Rhythm = ({ start }) => {
 
   const touchCancelHandler = (e) => {
     console.log("cancel");
-    setTapList([]);
+    setList([]);
   };
 
   useEffect(() => {
     if (acceptedList.length < notes.length + 1) {
       if (moveList.length > 0) {
         const filteredNotes = notes.filter(
-          (item) =>
-            item.endId === Number(moveList[0]?.touch[0].target.id) &&
-            item.type === "moveSlide"
+          (item) => item.endId === Number(moveList[0]?.touch[0].target.id)
         );
         if (filteredNotes.length === 0) {
           setMoveList([]);
@@ -166,13 +161,16 @@ const Rhythm = ({ start }) => {
         console.log(filteredNotes);
 
         const filteredMoveList = moveList.filter(
-          (item) => item.touch[0].target.className === "Bdot"
+          (item) =>
+            item.touch[0].target !== document.querySelector(".playArea") &&
+            document.querySelector(".touchContainer")
         );
         console.log(filteredMoveList);
 
         const filteredAcceptedList = acceptedList.filter((item) =>
-          item?.type !== "moveSlide"
-            ? item?.touch[0]?.endId === filteredMoveList[0]?.touch[0]?.target ||
+          item?.type !== "startSlide"
+            ? item?.touch[0]?.target ===
+                filteredMoveList[0]?.touch[0]?.target ||
               filteredMoveList[1]?.touch[0]?.target
             : false
         );
@@ -205,7 +203,6 @@ const Rhythm = ({ start }) => {
                 endType: true,
                 quality:
                   diffOne < 30 ? (diffOne < 15 ? "Perfect" : "Good") : "Miss",
-                type: filteredNotes[0]?.type || "",
               },
             ]);
             setMoveList([]);
@@ -239,7 +236,6 @@ const Rhythm = ({ start }) => {
                 endType: true,
                 quality:
                   diffZero < 30 ? (diffZero < 15 ? "Perfect" : "Good") : "Miss",
-                type: filteredNotes[0]?.type || "",
               },
             ]);
             setMoveList([]);
@@ -254,9 +250,7 @@ const Rhythm = ({ start }) => {
 
       if (endList.length > 0) {
         const filteredNotes = notes.filter(
-          (item) =>
-            item.endId === Number(endList[0]?.touch[0].target.id) &&
-            item.type === "endSlide"
+          (item) => item.endId === Number(endList[0]?.touch[0].target.id)
         );
         if (filteredNotes.length === 0) {
           setEndList([]);
@@ -265,13 +259,16 @@ const Rhythm = ({ start }) => {
         console.log(filteredNotes);
 
         const filteredEndList = endList.filter(
-          (item) => item.touch[0].target.className === "Bdot"
+          (item) =>
+            item.touch[0].target !== document.querySelector(".playArea") &&
+            document.querySelector(".touchContainer")
         );
         console.log(filteredEndList);
 
         const filteredAcceptedList = acceptedList.filter((item) =>
-          item?.type === "endSlide"
-            ? item?.endId === filteredEndList[0]?.touch[0]?.target ||
+          item?.type !== "startSlide"
+            ? item?.touch[0]?.target ||
+              item?.endId === filteredEndList[0]?.touch[0]?.target ||
               filteredEndList[1]?.touch[0]?.target
             : false
         );
@@ -293,12 +290,6 @@ const Rhythm = ({ start }) => {
                 endList[1]?.touch[0].pageY -
                 322
             );
-            const diffDuration = Math.abs(
-              endList[1]?.dur - filteredNotes[0]?.time - 1120
-            );
-            console.log(diffDuration);
-            console.log(diffOne);
-            if (diffOne >= 30 || diffDuration > 300) return;
             setAcceptedList((prevState) => [
               ...prevState,
               {
@@ -307,7 +298,6 @@ const Rhythm = ({ start }) => {
                 endType: true,
                 quality:
                   diffOne < 30 ? (diffOne < 15 ? "Perfect" : "Good") : "Miss",
-                type: filteredNotes[0]?.type || "",
               },
             ]);
             setEndList([]);
@@ -332,13 +322,6 @@ const Rhythm = ({ start }) => {
                 endList[0]?.touch[0].pageY -
                 322
             );
-            const diffDuration = Math.abs(
-              endList[0]?.dur - filteredNotes[0]?.time - 1120
-            );
-            console.log(diffDuration);
-            console.log(diffZero);
-            if (diffZero >= 30 || diffDuration > 300) return;
-
             setAcceptedList((prevState) => [
               ...prevState,
               {
@@ -347,7 +330,6 @@ const Rhythm = ({ start }) => {
                 endType: true,
                 quality:
                   diffZero < 30 ? (diffZero < 15 ? "Perfect" : "Good") : "Miss",
-                type: filteredNotes[0]?.type || "",
               },
             ]);
             setEndList([]);
@@ -360,97 +342,96 @@ const Rhythm = ({ start }) => {
         }
       }
 
-      if (tapList.length > 0) {
-        console.log(tapList);
+      if (listPer.length > 0) {
+        console.log(listPer);
+        console.log(list);
         const filteredNotes = notes.filter(
-          (item) =>
-            item.id === Number(tapList[0]?.touch[0].target.id) &&
-            item.type === "startSlide"
+          (item) => item.id === Number(listPer[0]?.touch[0].target.id)
         );
         if (filteredNotes.length === 0) {
-          setTapList([]);
+          setListPer([]);
           return;
         }
         console.log(filteredNotes);
 
-        const filteredTapList = tapList.filter(
-          (item) => item.touch[0].target.className === "Bdot"
+        const filteredListPer = listPer.filter(
+          (item) =>
+            item.touch[0].target !== document.querySelector(".playArea") &&
+            document.querySelector(".touchContainer")
         );
 
-        const filteredAcceptedList = acceptedList.filter((item) =>
-          item?.type === "startSlide"
-            ? item?.touch[0]?.target.id ===
-                filteredTapList[0]?.touch[0]?.target ||
-              filteredTapList[1]?.touch[0]?.target
-            : false
+        const filteredAcceptedList = acceptedList.filter(
+          (item) =>
+            item?.touch[0]?.target === filteredListPer[0]?.touch[0]?.target ||
+            filteredListPer[1]?.touch[0]?.target
         );
         console.log(filteredAcceptedList);
-        console.log(filteredTapList);
+        console.log(filteredListPer);
         if (filteredAcceptedList.length === 0) {
-          if (filteredTapList.length === 2) {
+          if (filteredListPer.length === 2) {
             console.log("double");
-            console.log(filteredTapList);
+            console.log(filteredListPer);
             console.log(notes);
             const filteredNotes = notes.filter(
               (item) =>
-                item.id === Number(filteredTapList[1].touch[0].target.id) &&
+                item.id === Number(filteredListPer[1].touch[0].target.id) &&
                 item.type === "startSlide"
             );
-            console.log(filteredTapList);
+            console.log(filteredListPer);
             console.log(filteredNotes);
             const diffOne = Math.abs(
-              filteredTapList[1].touch[0].pageX -
+              filteredListPer[1].touch[0].pageX -
                 filteredNotes[0]?.x +
-                filteredTapList[1].touch[0].pageY -
+                filteredListPer[1].touch[0].pageY -
                 322
             );
             setAcceptedList((prevState) => [
               ...prevState,
               {
-                touch: filteredTapList[1].touch,
+                touch: filteredListPer[1].touch,
                 quality:
                   diffOne < 30 ? (diffOne < 15 ? "Perfect" : "Good") : "Miss",
                 type: filteredNotes[0]?.type || "",
               },
             ]);
-            setTapList([]);
+            setListPer([]);
           } else {
             const filteredNotes = notes.filter(
               (item) =>
-                item.id === Number(filteredTapList[0].touch[0].target.id) &&
+                item.id === Number(filteredListPer[0].touch[0].target.id) &&
                 item.type === "startSlide"
             );
             const diffZero = Math.abs(
-              filteredTapList[0].touch[0].pageX -
+              filteredListPer[0].touch[0].pageX -
                 filteredNotes[0]?.x +
-                filteredTapList[0].touch[0].pageY -
+                filteredListPer[0].touch[0].pageY -
                 322
             );
             setAcceptedList((prevState) => [
               ...prevState,
               {
-                touch: filteredTapList[0].touch,
+                touch: filteredListPer[0].touch,
                 quality:
                   diffZero < 30 ? (diffZero < 15 ? "Perfect" : "Good") : "Miss",
                 type: filteredNotes[0]?.type || "",
               },
             ]);
-            setTapList([]);
+            setListPer([]);
           }
         } else {
-          setTapList([]);
+          setListPer([]);
           return;
         }
       } else return;
     }
 
     if (holdList.length > 0) {
+      console.log("1-H");
       const filteredNotes = notes.filter(
-        (item) =>
-          item.endId === Number(holdList[0]?.touch[0].target.id) &&
-          item.type === "holdSlide"
+        (item) => item.endId === Number(holdList[0]?.touch[0].target.id)
       );
       if (filteredNotes.length === 0) {
+        console.log("2-H");
         setHoldList([]);
         return;
       }
@@ -458,20 +439,22 @@ const Rhythm = ({ start }) => {
         (item) => item?.realId === Number(filteredNotes[0].id)
       );
       if (filteredAccepted.length > 0) {
+        console.log("3-H");
         setHoldList([]);
         return;
       }
       console.log(filteredNotes);
+      console.log("4-H");
       const filteredHoldList = holdList.filter(
-        (item) => item.touch[0].target.className === "Bdot"
-        // item.touch[0].target !== document.querySelector(".playArea") &&
-        // document.querySelector(".touchContainer")
+        (item) =>
+          item.touch[0].target !== document.querySelector(".playArea") &&
+          document.querySelector(".touchContainer")
       );
       console.log(filteredHoldList);
 
       const filteredAcceptedList = acceptedList.filter((item) =>
-        item?.type === "holdSlide"
-          ? item?.endId === filteredHoldList[0]?.touch[0]?.target ||
+        item?.type !== "startSlide"
+          ? item?.touch[0]?.target === filteredHoldList[0]?.touch[0]?.target ||
             filteredHoldList[1]?.touch[0]?.target
           : false
       );
@@ -480,7 +463,6 @@ const Rhythm = ({ start }) => {
 
       if (filteredAcceptedList.length === 0) {
         if (filteredHoldList.length === 2) {
-          console.log("DoubleHold");
           console.log(filteredHoldList);
           console.log(notes);
           const filteredNotes = notes.filter(
@@ -494,12 +476,7 @@ const Rhythm = ({ start }) => {
               holdList[1]?.touch[0].pageY -
               322
           );
-          const diffDuration = Math.abs(
-            holdList[1]?.dur - filteredNotes[0]?.time - 1120
-          );
-          console.log(diffDuration);
-          console.log(diffOne);
-          if (diffOne >= 30 || diffDuration > 300) return;
+          if (diffOne >= 30) return;
 
           setAcceptedList((prevState) => [
             ...prevState,
@@ -509,7 +486,6 @@ const Rhythm = ({ start }) => {
               endType: true,
               quality:
                 diffOne < 30 ? (diffOne < 15 ? "Perfect" : "Good") : "Miss",
-              type: filteredNotes[0]?.type || "",
             },
           ]);
           setHoldList([]);
@@ -521,7 +497,8 @@ const Rhythm = ({ start }) => {
             )
           );
         } else {
-          console.log("SingleHold");
+          console.log("Singlemove");
+          console.log("6-H-Single");
           console.log(filteredHoldList);
           console.log(notes);
           const filteredNotes = notes.filter(
@@ -534,12 +511,10 @@ const Rhythm = ({ start }) => {
               holdList[0]?.touch[0].pageY -
               322
           );
-          const diffDuration = Math.abs(
-            holdList[0]?.dur - filteredNotes[0]?.time - 1120
-          );
-          console.log(diffDuration);
-          console.log(diffZero);
-          if (diffZero >= 30 || diffDuration > 300) return;
+          if (diffZero >= 30) {
+            console.log(diffZero);
+            return;
+          }
 
           setAcceptedList((prevState) => [
             ...prevState,
@@ -549,7 +524,6 @@ const Rhythm = ({ start }) => {
               endType: true,
               quality:
                 diffZero < 30 ? (diffZero < 15 ? "Perfect" : "Good") : "Miss",
-              type: filteredNotes[0]?.type || "",
             },
           ]);
           setHoldList([]);
@@ -562,10 +536,11 @@ const Rhythm = ({ start }) => {
       } else return;
     }
   }, [
-    tapList,
+    listPer,
     acceptedList.length,
     start,
     acceptedList,
+    list,
     endList,
     moveList,
     holdList,
@@ -593,12 +568,34 @@ const Rhythm = ({ start }) => {
     }
   };
 
+  // const pressHandler = (e) => {
+  //   console.log(e);
+  //   console.log("Pressed");
+  // };
+
+  // const pressUpHandler = (e) => {
+  //   console.log(e);
+  //   console.log("PressedUp");
+  // };
+
   const clickHandler = (id) => {
     console.log(id);
     setBeats((prevState) => [...prevState].filter((item) => item.id !== id));
   };
 
   return (
+    // <ReactHammer
+    //   onPress={pressHandler}
+    //   onPressUp={pressUpHandler}
+    //   options={{
+    //     recognizers: {
+    //       tap: {
+    //         time: 3000,
+    //         threshold: 100,
+    //       },
+    //     },
+    //   }}
+    // >
     <div
       className="touchContainer"
       onTouchStart={touchStartHandler}
@@ -669,6 +666,20 @@ const Rhythm = ({ start }) => {
                   y2="2500"
                 ></line>
               </svg>
+              // <div
+              //   key={item.id}
+              //   id={item.id}
+              //   className="Bdot"
+              //   style={{
+              //     left: `${beats[i - 1].x}px`,
+              //     animationDelay: `${beats[i - 1].time + 1400}ms`,
+              //     width: "4rem",
+              //     // transform: "translateY(-100%)",
+              //     // height: `${item.height}px`,
+              //     // borderRadius: "0.5rem",
+              //     // animationName: "swipeMoving",
+              //   }}
+              // ></div>
             );
           } else {
             return (
@@ -693,7 +704,64 @@ const Rhythm = ({ start }) => {
             );
           }
         })}
-
+      {/* {start &&
+          beats.map((item, i) => {
+            if (item.sw) {
+              return (
+                <ReactHammer
+                  key={item.id}
+                  onPress={pressHandler}
+                  onPressUp={pressUpHandler}
+                  options={{
+                    recognizers: {
+                      tap: {
+                        time: 300,
+                        threshold: 100,
+                      },
+                    },
+                  }}
+                >
+                  <div
+                    onClick={(e, id) => {
+                      console.log(item.id);
+                      console.log(e);
+                      e.preventDefault();
+                      clickHandler(item.id);
+                    }}
+                    onAnimationEnd={(id) => {
+                      missHandler(id);
+                    }}
+                    key={item.id}
+                    id={item.id}
+                    className="Bdot"
+                    style={{
+                      left: `${item.x}px`,
+                      animationDelay: `${item.time}ms`,
+                      // transform: "translateY(-100%)",
+                      // height: `${item.height}px`,
+                      // borderRadius: "0.5rem",
+                      // animationName: "swipeMoving",
+                    }}
+                  ></div>
+                </ReactHammer>
+              );
+            } else {
+              return (
+                <div
+                  onAnimationEnd={(id) => {
+                    missHandler(id);
+                  }}
+                  key={item.id}
+                  id={item.id}
+                  className="Bdot"
+                  style={{
+                    left: `${item.x}px`,
+                    animationDelay: `${item.time}ms`,
+                  }}
+                ></div>
+              );
+            }
+          })} */}
       <div
         style={{
           backgroundColor: "white",
@@ -705,6 +773,7 @@ const Rhythm = ({ start }) => {
         {acceptedList[acceptedList?.length - 1]?.quality}
       </div>
     </div>
+    // </ReactHammer>
   );
 };
 
