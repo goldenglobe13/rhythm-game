@@ -1,0 +1,13 @@
+.timer {
+  display: block;
+  text-align: center;
+  width: 18rem;
+  background-color: rgb(255, 255, 255);
+  border-radius: 0.5rem;
+  margin: 1rem auto;
+  letter-spacing: 0rem;
+  line-height: 4rem;
+  font-size: 2rem;
+  /* font-family: "Orbitron", sans-serif; */
+  /* font-family: "Press Start 2P", sans-serif; */
+}

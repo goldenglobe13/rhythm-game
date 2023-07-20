@@ -167,12 +167,13 @@ body {
   z-index: 2;
 }
 
-/* .yline1 {
+.yline1 {
   position: absolute;
   top: 50%;
   left: 620px;
   width: 0.5rem;
   height: 50rem;
+  /* border-radius: 50%; */
   transform: translate(-50%, -50%);
   background-color: wheat;
 }
@@ -183,6 +184,7 @@ body {
   left: 100px;
   width: 0.5rem;
   height: 50rem;
+  /* border-radius: 50%; */
   transform: translate(-50%, -50%);
   background-color: wheat;
 }
@@ -193,9 +195,10 @@ body {
   left: 50%;
   width: 60rem;
   height: 0.5rem;
+  /* border-radius: 50%; */
   transform: translate(-50%, -50%);
   background-color: wheat;
-} */
+}
 
 /* .Bdot {
   width: 4rem;

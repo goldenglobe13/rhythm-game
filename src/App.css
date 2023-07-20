@@ -9,3 +9,13 @@ button {
   display: block;
   margin: 1rem auto;
 }
+
+.btn {
+  width: 10rem;
+  height: 10rem;
+  background-color: aqua;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
