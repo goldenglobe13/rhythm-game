@@ -135,12 +135,15 @@ body {
 .Cdot {
   width: 10rem;
   height: 10rem;
-  /* background-image: url(/public/beat-1.png); */
-  background-color: transparent;
+  background-image: url(/public/beat-1.png);
   background-size: cover;
   border-radius: 50%;
   position: absolute;
+  top: -148px;
   z-index: 27;
+  animation-name: moving;
+  animation-duration: var(--base-duration);
+  animation-timing-function: linear;
   transform: rotateX(0deg) translate(-50%, -50%);
 }
 

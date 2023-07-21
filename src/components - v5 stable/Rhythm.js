@@ -2,77 +2,6 @@ import { useEffect, useState } from "react";
 import "./Rhythm.css";
 
 // const r = document.querySelector(":root");
-let Y = 342.14;
-const quality = { accepted: 50, good: 25 };
-function diffPos(first, second, index) {
-  const d = Math.abs(
-    first[index].touch[0].pageX - second[0]?.x + first[index].touch[0].pageY - Y
-  );
-  return d;
-}
-
-function qualityCheck(diff) {
-  let q = "";
-  switch (true) {
-    case diff < quality.good:
-      q = "Perfect";
-      break;
-    case diff < quality.accepted:
-      q = "Good";
-      break;
-    default:
-      q = "Miss";
-  }
-  console.log(q);
-  // const q =
-  //   diff < quality.accepted
-  //     ? diff < quality.good
-  //       ? "Perfect"
-  //       : "Good"
-  //     : "Miss";
-  return q;
-}
-
-// function exportToCsv(filename, rows) {
-//   var processRow = function (row) {
-//     var finalVal = "";
-//     for (var j = 0; j < row.length; j++) {
-//       var innerValue = row[j] === null ? "" : row[j].toString();
-//       if (row[j] instanceof Date) {
-//         innerValue = row[j].toLocaleString();
-//       }
-//       var result = innerValue.replace(/"/g, '""');
-//       if (result.search(/("|,|\n)/g) >= 0) result = '"' + result + '"';
-//       if (j > 0) finalVal += ",";
-//       finalVal += result;
-//     }
-//     return finalVal + "\n";
-//   };
-
-//   var csvFile = "";
-//   for (var i = 0; i < rows.length; i++) {
-//     csvFile += processRow(rows[i]);
-//   }
-
-//   var blob = new Blob([csvFile], { type: "text/csv;charset=utf-8;" });
-//   if (navigator.msSaveBlob) {
-//     // IE 10+
-//     navigator.msSaveBlob(blob, filename);
-//   } else {
-//     var link = document.createElement("a");
-//     if (link.download !== undefined) {
-//       // feature detection
-//       // Browsers that support HTML5 download attribute
-//       var url = URL.createObjectURL(blob);
-//       link.setAttribute("href", url);
-//       link.setAttribute("download", filename);
-//       link.style.visibility = "hidden";
-//       document.body.appendChild(link);
-//       link.click();
-//       document.body.removeChild(link);
-//     }
-//   }
-// }
 const notesDisp = [
   { x: 620, time: 0, id: 1, type: "startSlide" },
   {
@@ -114,16 +43,7 @@ const notesDisp = [
   { x: 100, time: 2000, id: 10, endId: 6, type: "endSlide" },
 ];
 
-let notes = [
-  { time: 0, id: 1, type: "startSlide" },
-  { time: 1000, id: 3, endId: 1, type: "holdSlide" },
-  { time: 2000, id: 5, endId: 1, type: "endSlide" },
-  { time: 0, id: 6, type: "startSlide" },
-  { time: 1000, id: 8, endId: 6, type: "holdSlide" },
-  { time: 2000, id: 10, endId: 6, type: "endSlide" },
-];
-
-const notesToPers = [
+const notes = [
   { x: 620, time: 0, id: 1, type: "startSlide" },
   { x: 420, time: 1000, id: 3, endId: 1, type: "holdSlide" },
   { x: 620, time: 2000, id: 5, endId: 1, type: "endSlide" },
@@ -147,31 +67,11 @@ const Rhythm = ({ start }) => {
   // console.log(beats);
   // console.log(list);
 
-  console.log(acceptedList);
-
-  useEffect(() => {
-    const divsList = [...document.getElementById("divsList").children];
-    const mappedDivsList = divsList.map((item) => {
-      const dimensions = item.getBoundingClientRect();
-      const x = dimensions.x + dimensions.width / 2;
-      const y = dimensions.y + dimensions.height / 2;
-      return { x, y };
-    });
-    // exportToCsv("hhhh", mappedDivsList);
-
-    notes = notes.map((item, i) => {
-      return { ...item, x: mappedDivsList[i].x };
-    });
-    Y = mappedDivsList[0].y;
-
-    console.log(notes);
-    console.log(Y);
-  }, []);
+  // console.log(acceptedList);
 
   const touchStartHandler = (e) => {
     const dur = new Date().getTime() - start;
     console.log("start");
-    console.log(e);
     setList((prevState) => [...prevState, ...e.changedTouches]);
     const tapList = [{ touch: [...e.changedTouches], dur: dur }];
 
@@ -205,19 +105,18 @@ const Rhythm = ({ start }) => {
                 item.id === Number(filteredTapList[1].touch[0].target.id) &&
                 item.type === "startSlide"
             );
-            const diffOne = diffPos(filteredTapList, filteredNotes, 1);
-            console.log(diffOne);
-            // const diffOne = Math.abs(
-            //   filteredTapList[1].touch[0].pageX -
-            //     filteredNotes[0]?.x +
-            //     filteredTapList[1].touch[0].pageY -
-            //     342.14
-            // );
+            const diffOne = Math.abs(
+              filteredTapList[1].touch[0].pageX -
+                filteredNotes[0]?.x +
+                filteredTapList[1].touch[0].pageY -
+                332
+            );
             setAcceptedList((prevState) => [
               ...prevState,
               {
                 touch: filteredTapList[1].touch,
-                quality: qualityCheck(diffOne),
+                quality:
+                  diffOne < 30 ? (diffOne < 15 ? "Perfect" : "Good") : "Miss",
                 type: filteredNotes[0]?.type || "",
                 tapId: filteredTapList[1].touch[0].target.id,
               },
@@ -229,19 +128,18 @@ const Rhythm = ({ start }) => {
                 item.id === Number(filteredTapList[0].touch[0].target.id) &&
                 item.type === "startSlide"
             );
-            // const diffZero = Math.abs(
-            //   filteredTapList[0].touch[0].pageX -
-            //     filteredNotes[0]?.x +
-            //     filteredTapList[0].touch[0].pageY -
-            //     342.14
-            // );
-            const diffZero = diffPos(filteredTapList, filteredNotes, 0);
-            console.log(diffZero);
+            const diffZero = Math.abs(
+              filteredTapList[0].touch[0].pageX -
+                filteredNotes[0]?.x +
+                filteredTapList[0].touch[0].pageY -
+                332
+            );
             setAcceptedList((prevState) => [
               ...prevState,
               {
                 touch: filteredTapList[0].touch,
-                quality: qualityCheck(diffZero),
+                quality:
+                  diffZero < 30 ? (diffZero < 15 ? "Perfect" : "Good") : "Miss",
                 type: filteredNotes[0]?.type || "",
                 tapId: filteredTapList[0].touch[0].target.id,
               },
@@ -319,13 +217,13 @@ const Rhythm = ({ start }) => {
               holdList[0]?.touch[1].pageX -
                 secondFilteredNote[0]?.x +
                 holdList[0]?.touch[1].pageY -
-                342.14
+                332
             );
             const diffZero = Math.abs(
               holdList[0]?.touch[0].pageX -
                 firstFilteredNote[0]?.x +
                 holdList[0]?.touch[0].pageY -
-                342.14
+                332
             );
             // const diffDuration = Math.abs(
             //   holdList[1]?.dur - filteredNotes[0]?.time - 1120
@@ -333,9 +231,8 @@ const Rhythm = ({ start }) => {
             // console.log(diffDuration);
             // console.log(diffOne);
             // if (diffOne >= 30 || diffDuration > 300) return;
-            if (diffOne >= quality.accepted && diffZero >= quality.accepted)
-              return;
-            if (diffZero < quality.accepted) {
+            if (diffOne >= 30 && diffZero >= 30) return;
+            if (diffZero < 30) {
               setAcceptedList((prevState) => {
                 const Duplicate = [...prevState]?.filter(
                   (item) =>
@@ -349,7 +246,12 @@ const Rhythm = ({ start }) => {
                       touch: holdList[0]?.touch[0],
                       realId: filteredNotes[0].id,
                       endType: true,
-                      quality: qualityCheck(diffZero),
+                      quality:
+                        diffZero < 30
+                          ? diffZero < 15
+                            ? "Perfect"
+                            : "Good"
+                          : "Miss",
                       type: filteredNotes[0]?.type || "",
                     },
                   ];
@@ -357,7 +259,7 @@ const Rhythm = ({ start }) => {
               });
             }
 
-            if (diffOne < quality.accepted) {
+            if (diffOne < 30) {
               setAcceptedList((prevState) => {
                 const Duplicate = [...prevState]?.filter(
                   (item) =>
@@ -371,7 +273,12 @@ const Rhythm = ({ start }) => {
                       touch: holdList[0]?.touch[1],
                       realId: filteredNotes[1].id,
                       endType: true,
-                      quality: qualityCheck(diffOne),
+                      quality:
+                        diffOne < 30
+                          ? diffOne < 15
+                            ? "Perfect"
+                            : "Good"
+                          : "Miss",
                       type: filteredNotes[1]?.type || "",
                     },
                   ];
@@ -397,7 +304,7 @@ const Rhythm = ({ start }) => {
               holdList[0]?.touch[0].pageX -
                 filteredNotes[0]?.x +
                 holdList[0]?.touch[0].pageY -
-                342.14
+                332
             );
             // const diffDuration = Math.abs(
             //   holdList[1]?.dur - filteredNotes[0]?.time - 1120
@@ -405,7 +312,7 @@ const Rhythm = ({ start }) => {
             // console.log(diffDuration);
             // console.log(diffOne);
             // if (diffOne >= 30 || diffDuration > 300) return;
-            if (diffZero >= quality.accepted) return;
+            if (diffZero >= 30) return;
 
             setAcceptedList((prevState) => {
               const Duplicate = [...prevState]?.filter(
@@ -418,7 +325,12 @@ const Rhythm = ({ start }) => {
                     touch: holdList[0]?.touch[0],
                     realId: filteredNotes[0].id,
                     endType: true,
-                    quality: qualityCheck(diffZero),
+                    quality:
+                      diffZero < 30
+                        ? diffZero < 15
+                          ? "Perfect"
+                          : "Good"
+                        : "Miss",
                     type: filteredNotes[0]?.type || "",
                   },
                 ];
@@ -487,20 +399,21 @@ const Rhythm = ({ start }) => {
               endList[1]?.touch[0].pageX -
                 filteredNotes[0]?.x +
                 endList[1]?.touch[0].pageY -
-                342.14
+                332
             );
             const diffDuration = Math.abs(
               endList[1]?.dur - filteredNotes[0]?.time - 1120
             );
 
-            if (diffOne >= quality.accepted || diffDuration > 300) return;
+            if (diffOne >= 30 || diffDuration > 300) return;
             setAcceptedList((prevState) => [
               ...prevState,
               {
                 touch: endList[1]?.touch[0],
                 realId: filteredNotes[0].id,
                 endType: true,
-                quality: qualityCheck(diffOne),
+                quality:
+                  diffOne < 30 ? (diffOne < 15 ? "Perfect" : "Good") : "Miss",
                 type: filteredNotes[0]?.type || "",
               },
             ]);
@@ -521,13 +434,13 @@ const Rhythm = ({ start }) => {
               endList[0]?.touch[0].pageX -
                 filteredNotes[0]?.x +
                 endList[0]?.touch[0].pageY -
-                342.14
+                332
             );
             const diffDuration = Math.abs(
               endList[0]?.dur - filteredNotes[0]?.time - 1120
             );
 
-            if (diffZero >= quality.accepted || diffDuration > 300) return;
+            if (diffZero >= 50 || diffDuration > 300) return;
 
             setAcceptedList((prevState) => [
               ...prevState,
@@ -535,7 +448,8 @@ const Rhythm = ({ start }) => {
                 touch: endList[0]?.touch[0],
                 realId: filteredNotes[0].id,
                 endType: true,
-                quality: qualityCheck(diffZero),
+                quality:
+                  diffZero < 50 ? (diffZero < 30 ? "Perfect" : "Good") : "Miss",
                 type: filteredNotes[0]?.type || "",
               },
             ]);
@@ -626,18 +540,6 @@ const Rhythm = ({ start }) => {
         onTouchMove={touchMoveHandler}
       >
         <div className="touchContainer">
-          <div id="divsList">
-            {notesToPers.map((item, i) => {
-              return (
-                <div
-                  key={item.id}
-                  style={{ left: `${item.x}px`, top: `332px` }}
-                  // className={holdingEffect ? "dot holdEffect" : "dot"}
-                  className={"Cdot"}
-                ></div>
-              );
-            })}{" "}
-          </div>
           {list.map((touch, i) => {
             return (
               <div

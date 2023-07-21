@@ -13,7 +13,7 @@ body {
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  perspective: 30rem;
+  perspective: 0rem;
   position: relative;
 }
 
@@ -29,7 +29,7 @@ body {
   border-left: 0.5rem solid white;
   border-right: 0.5rem solid white;
   /* transform-style: preserve-3d; */
-  transform: rotateX(45deg) translate(-50%, -50%);
+  transform: rotateX(0deg) translate(-50%, -50%);
 }
 
 .quality {
@@ -118,8 +118,8 @@ body {
 }
 
 .Bdot {
-  width: 10rem;
-  height: 10rem;
+  width: 6rem;
+  height: 6rem;
   background-image: url(/public/beat-1.png);
   background-size: cover;
   border-radius: 50%;
@@ -129,18 +129,6 @@ body {
   animation-name: moving;
   animation-duration: var(--base-duration);
   animation-timing-function: linear;
-  transform: rotateX(0deg) translate(-50%, -50%);
-}
-
-.Cdot {
-  width: 10rem;
-  height: 10rem;
-  /* background-image: url(/public/beat-1.png); */
-  background-color: transparent;
-  background-size: cover;
-  border-radius: 50%;
-  position: absolute;
-  z-index: 27;
   transform: rotateX(0deg) translate(-50%, -50%);
 }
 
@@ -179,7 +167,7 @@ body {
   z-index: 2;
 }
 
-/* .yline1 {
+.yline1 {
   position: absolute;
   top: 50%;
   left: 620px;
@@ -207,11 +195,6 @@ body {
   height: 0.5rem;
   transform: translate(-50%, -50%);
   background-color: wheat;
-} */
-
-#divsList {
-  /* display: none; */
-  z-index: -5;
 }
 
 /* .Bdot {

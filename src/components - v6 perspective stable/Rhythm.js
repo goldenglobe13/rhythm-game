@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import "./Rhythm.css";
 
 // const r = document.querySelector(":root");
-let Y = 342.14;
-const quality = { accepted: 50, good: 25 };
+const Y = 342.14;
+const quality = { accepted: 70, good: 35 };
 function diffPos(first, second, index) {
   const d = Math.abs(
     first[index].touch[0].pageX - second[0]?.x + first[index].touch[0].pageY - Y
@@ -12,24 +12,12 @@ function diffPos(first, second, index) {
 }
 
 function qualityCheck(diff) {
-  let q = "";
-  switch (true) {
-    case diff < quality.good:
-      q = "Perfect";
-      break;
-    case diff < quality.accepted:
-      q = "Good";
-      break;
-    default:
-      q = "Miss";
-  }
-  console.log(q);
-  // const q =
-  //   diff < quality.accepted
-  //     ? diff < quality.good
-  //       ? "Perfect"
-  //       : "Good"
-  //     : "Miss";
+  const q =
+    diff < quality.accepted
+      ? diff < quality.good
+        ? "Perfect"
+        : "Good"
+      : "Miss";
   return q;
 }
 
@@ -162,10 +150,7 @@ const Rhythm = ({ start }) => {
     notes = notes.map((item, i) => {
       return { ...item, x: mappedDivsList[i].x };
     });
-    Y = mappedDivsList[0].y;
-
     console.log(notes);
-    console.log(Y);
   }, []);
 
   const touchStartHandler = (e) => {
