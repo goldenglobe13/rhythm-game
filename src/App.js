@@ -34,7 +34,7 @@ function App() {
     } else if (appContainer?.msRequestFullscreen) {
       appContainer?.msRequestFullscreen();
     }
-    window.screen.orientation.lock("landscape-secondary");
+    window.screen.orientation.lock("landscape");
   }, [goFull]);
 
   return (
