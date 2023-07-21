@@ -3,7 +3,7 @@ import "./Rhythm.css";
 
 // const r = document.querySelector(":root");
 let Y = 342.14;
-const quality = { accepted: 50, good: 25 };
+const quality = { accepted: 50, good: 25, perfect: 15 };
 function diffPos(first, second, index) {
   const d = Math.abs(
     first[index].touch[0].pageX - second[0]?.x + first[index].touch[0].pageY - Y
@@ -14,6 +14,9 @@ function diffPos(first, second, index) {
 function qualityCheck(diff) {
   let q = "";
   switch (true) {
+    case diff < quality.perfect:
+      q = "SuperPerfect";
+      break;
     case diff < quality.good:
       q = "Perfect";
       break;
