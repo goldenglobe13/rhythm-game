@@ -55,7 +55,7 @@ const notes = [
 const Rhythm = ({ start }) => {
   const [list, setList] = useState([]);
   const [acceptedList, setAcceptedList] = useState([]);
-  const [beats, setBeats] = useState(notes);
+  const [beats, setBeats] = useState(notesDisp);
   // const [tapList, setTapList] = useState([]);
   // const [endList, setEndList] = useState([]);
   // // const [moveList, setMoveList] = useState([]);
@@ -99,7 +99,7 @@ const Rhythm = ({ start }) => {
         );
         if (filteredAcceptedList.length === 0) {
           if (filteredTapList.length === 2) {
-            console.log("double");
+            // console.log("Double");
             const filteredNotes = notes.filter(
               (item) =>
                 item.id === Number(filteredTapList[1].touch[0].target.id) &&
@@ -122,7 +122,7 @@ const Rhythm = ({ start }) => {
               },
             ]);
           } else {
-            console.log("Single");
+            // console.log("Single");
             const filteredNotes = notes.filter(
               (item) =>
                 item.id === Number(filteredTapList[0].touch[0].target.id) &&
@@ -388,7 +388,7 @@ const Rhythm = ({ start }) => {
 
         if (filteredAcceptedList.length === 0) {
           if (filteredEndList.length === 2) {
-            console.log("DoubleEnd");
+            // console.log("DoubleEnd");
 
             const filteredNotes = notes.filter(
               (item) =>
@@ -419,12 +419,11 @@ const Rhythm = ({ start }) => {
             ]);
             setBeats((prevState) =>
               [...prevState].filter(
-                (item) => item.endId === Number(endList[1]?.touch[0].target.id)
+                (item) => item.endId === Number(endList[0]?.touch[1].target.id)
               )
             );
           } else {
-            console.log("SingleEnd");
-
+            // console.log("SingleEnd");
             const filteredNotes = notes.filter(
               (item) =>
                 item.endId === Number(filteredEndList[0].touch[0].target.id) &&
@@ -489,437 +488,6 @@ const Rhythm = ({ start }) => {
   //     holdingEffect && setHoldingEffect(false);
   //   }
 
-  //   if (acceptedList.length < notes.length) {
-  //     // if (moveList.length > 0) {
-  //     //   console.log("2-m");
-  //     //   const filteredNotes = notes.filter(
-  //     //     (item) =>
-  //     //       item.endId === Number(moveList[0]?.touch[0].target.id) &&
-  //     //       item.type === "moveSlide"
-  //     //   );
-  //     //   if (filteredNotes.length === 0) {
-  //     //     console.log("3-m");
-  //     //     setMoveList([]);
-  //     //     return;
-  //     //   }
-  //     //   const filteredAccepted = acceptedList.filter(
-  //     //     (item) => item?.realId === Number(filteredNotes[0].id)
-  //     //   );
-  //     //   if (filteredAccepted.length > 0) {
-  //     //     console.log("4-m");
-  //     //     setMoveList([]);
-  //     //     return;
-  //     //   }
-  //     //   console.log(filteredNotes);
-
-  //     //   const filteredMoveList = moveList.filter(
-  //     //     (item) => item.touch[0].target.className === "Bdot"
-  //     //   );
-  //     //   console.log(filteredMoveList);
-
-  //     //   const filteredAcceptedList = acceptedList.filter((item) =>
-  //     //     item?.type !== "moveSlide"
-  //     //       ? item?.touch[0]?.endId === filteredMoveList[0]?.touch[0]?.target ||
-  //     //         filteredMoveList[1]?.touch[0]?.target
-  //     //       : false
-  //     //   );
-
-  //     //   console.log(filteredAcceptedList);
-
-  //     //   if (filteredAcceptedList.length === 0) {
-  //     //     console.log("5-m");
-  //     //     if (filteredMoveList.length === 2) {
-  //     //       console.log("Doublemove");
-  //     //       console.log(filteredMoveList);
-  //     //       console.log(notes);
-  //     //       const filteredNotes = notes.filter(
-  //     //         (item) =>
-  //     //           item.endId === Number(filteredMoveList[1].touch[0].target.id) &&
-  //     //           item.type === "moveSlide"
-  //     //       );
-  //     //       const diffOne = Math.abs(
-  //     //         moveList[1]?.touch[0].pageX -
-  //     //           filteredNotes[0]?.x +
-  //     //           moveList[1]?.touch[0].pageY -
-  //     //           322
-  //     //       );
-  //     //       if (diffOne >= 30) return;
-
-  //     //       setAcceptedList((prevState) => [
-  //     //         ...prevState,
-  //     //         {
-  //     //           touch: moveList[1]?.touch[0],
-  //     //           realId: filteredNotes[0].id,
-  //     //           endType: true,
-  //     //           quality:
-  //     //             diffOne < 30 ? (diffOne < 15 ? "Perfect" : "Good") : "Miss",
-  //     //           type: filteredNotes[0]?.type || "",
-  //     //         },
-  //     //       ]);
-  //     //       setMoveList([]);
-  //     //       setBeats((prevState) =>
-  //     //         [...prevState].filter(
-  //     //           (item) => item.endId === Number(moveList[1]?.touch[0].target.id)
-  //     //         )
-  //     //       );
-  //     //     } else {
-  //     //       console.log("Singlemove");
-  //     //       console.log(filteredMoveList);
-  //     //       console.log(notes);
-  //     //       const filteredNotes = notes.filter(
-  //     //         (item) =>
-  //     //           item.endId === Number(filteredMoveList[0].touch[0].target.id) &&
-  //     //           item.type === "moveSlide"
-  //     //       );
-  //     //       const diffZero = Math.abs(
-  //     //         moveList[0]?.touch[0].pageX -
-  //     //           filteredNotes[0]?.x +
-  //     //           moveList[0]?.touch[0].pageY -
-  //     //           322
-  //     //       );
-  //     //       if (diffZero >= 30) return;
-
-  //     //       setAcceptedList((prevState) => [
-  //     //         ...prevState,
-  //     //         {
-  //     //           touch: moveList[0]?.touch[0],
-  //     //           realId: filteredNotes[0].id,
-  //     //           endType: true,
-  //     //           quality:
-  //     //             diffZero < 30 ? (diffZero < 15 ? "Perfect" : "Good") : "Miss",
-  //     //           type: filteredNotes[0]?.type || "",
-  //     //         },
-  //     //       ]);
-  //     //       setMoveList([]);
-  //     //       setBeats((prevState) =>
-  //     //         [...prevState].filter(
-  //     //           (item) => item.endId === Number(moveList[0]?.touch[0].target.id)
-  //     //         )
-  //     //       );
-  //     //     }
-  //     //   } else return;
-  //     // }
-
-  //     if (endList.length > 0) {
-  //       const filteredNotes = notes.filter(
-  //         (item) =>
-  //           item.endId === Number(endList[0]?.touch[0].target.id) &&
-  //           item.type === "endSlide"
-  //       );
-  //       if (filteredNotes.length === 0) {
-  //         setEndList([]);
-  //         return;
-  //       }
-  //       console.log(filteredNotes);
-
-  //       const filteredEndList = endList.filter(
-  //         (item) => item.touch[0].target.className === "Bdot"
-  //       );
-  //       console.log(filteredEndList);
-
-  //       const filteredAcceptedList = acceptedList.filter((item) =>
-  //         item?.type === "endSlide"
-  //           ? item?.endId === filteredEndList[0]?.touch[0]?.target ||
-  //             filteredEndList[1]?.touch[0]?.target
-  //           : false
-  //       );
-
-  //       console.log(filteredAcceptedList);
-  //       if (filteredAcceptedList.length === 0) {
-  //         if (filteredEndList.length === 2) {
-  //           console.log("DoubleEnd");
-  //           console.log(filteredEndList);
-  //           console.log(notes);
-  //           const filteredNotes = notes.filter(
-  //             (item) =>
-  //               item.endId === Number(filteredEndList[1].touch[0].target.id) &&
-  //               item.type === "endSlide"
-  //           );
-  //           const diffOne = Math.abs(
-  //             endList[1]?.touch[0].pageX -
-  //               filteredNotes[0]?.x +
-  //               endList[1]?.touch[0].pageY -
-  //               322
-  //           );
-  //           const diffDuration = Math.abs(
-  //             endList[1]?.dur - filteredNotes[0]?.time - 1120
-  //           );
-  //           console.log(diffDuration);
-  //           console.log(diffOne);
-  //           if (diffOne >= 30 || diffDuration > 300) return;
-  //           setAcceptedList((prevState) => [
-  //             ...prevState,
-  //             {
-  //               touch: endList[1]?.touch[0],
-  //               realId: filteredNotes[0].id,
-  //               endType: true,
-  //               quality:
-  //                 diffOne < 30 ? (diffOne < 15 ? "Perfect" : "Good") : "Miss",
-  //               type: filteredNotes[0]?.type || "",
-  //             },
-  //           ]);
-  //           setEndList([]);
-  //           setBeats((prevState) =>
-  //             [...prevState].filter(
-  //               (item) => item.endId === Number(endList[1]?.touch[0].target.id)
-  //             )
-  //           );
-  //         } else {
-  //           console.log("SingleEnd");
-  //           console.log(filteredEndList);
-  //           console.log(notes);
-  //           const filteredNotes = notes.filter(
-  //             (item) =>
-  //               item.endId === Number(filteredEndList[0].touch[0].target.id) &&
-  //               item.type === "endSlide"
-  //           );
-  //           console.log(filteredNotes);
-  //           const diffZero = Math.abs(
-  //             endList[0]?.touch[0].pageX -
-  //               filteredNotes[0]?.x +
-  //               endList[0]?.touch[0].pageY -
-  //               322
-  //           );
-  //           const diffDuration = Math.abs(
-  //             endList[0]?.dur - filteredNotes[0]?.time - 1120
-  //           );
-  //           console.log(diffDuration);
-  //           console.log(diffZero);
-  //           if (diffZero >= 30 || diffDuration > 300) return;
-
-  //           setAcceptedList((prevState) => [
-  //             ...prevState,
-  //             {
-  //               touch: endList[0]?.touch[0],
-  //               realId: filteredNotes[0].id,
-  //               endType: true,
-  //               quality:
-  //                 diffZero < 30 ? (diffZero < 15 ? "Perfect" : "Good") : "Miss",
-  //               type: filteredNotes[0]?.type || "",
-  //             },
-  //           ]);
-  //           setEndList([]);
-  //           setBeats((prevState) =>
-  //             [...prevState].filter(
-  //               (item) => item.endId === Number(endList[0]?.touch[0].target.id)
-  //             )
-  //           );
-  //         }
-  //       }
-  //     }
-
-  //     if (tapList.length > 0) {
-  //       console.log(tapList);
-  //       const filteredNotes = notes.filter(
-  //         (item) =>
-  //           item.id === Number(tapList[0]?.touch[0].target.id) &&
-  //           item.type === "startSlide"
-  //       );
-  //       if (filteredNotes.length === 0) {
-  //         setTapList([]);
-  //         return;
-  //       }
-  //       console.log(filteredNotes);
-
-  //       const filteredTapList = tapList.filter(
-  //         (item) => item.touch[0].target.className === "Bdot"
-  //       );
-
-  //       const filteredAcceptedList = acceptedList.filter((item) =>
-  //         item?.type === "startSlide"
-  //           ? item?.touch[0]?.target.id ===
-  //               filteredTapList[0]?.touch[0]?.target ||
-  //             filteredTapList[1]?.touch[0]?.target
-  //           : false
-  //       );
-  //       console.log(filteredAcceptedList);
-  //       console.log(filteredTapList);
-  //       if (filteredAcceptedList.length === 0) {
-  //         if (filteredTapList.length === 2) {
-  //           console.log("double");
-  //           console.log(filteredTapList);
-  //           console.log(notes);
-  //           const filteredNotes = notes.filter(
-  //             (item) =>
-  //               item.id === Number(filteredTapList[1].touch[0].target.id) &&
-  //               item.type === "startSlide"
-  //           );
-  //           console.log(filteredTapList);
-  //           console.log(filteredNotes);
-  //           const diffOne = Math.abs(
-  //             filteredTapList[1].touch[0].pageX -
-  //               filteredNotes[0]?.x +
-  //               filteredTapList[1].touch[0].pageY -
-  //               322
-  //           );
-  //           setAcceptedList((prevState) => [
-  //             ...prevState,
-  //             {
-  //               touch: filteredTapList[1].touch,
-  //               quality:
-  //                 diffOne < 30 ? (diffOne < 15 ? "Perfect" : "Good") : "Miss",
-  //               type: filteredNotes[0]?.type || "",
-  //               tapId: filteredTapList[1].touch[0].target.id,
-  //             },
-  //           ]);
-  //           setTapList([]);
-  //         } else {
-  //           const filteredNotes = notes.filter(
-  //             (item) =>
-  //               item.id === Number(filteredTapList[0].touch[0].target.id) &&
-  //               item.type === "startSlide"
-  //           );
-  //           const diffZero = Math.abs(
-  //             filteredTapList[0].touch[0].pageX -
-  //               filteredNotes[0]?.x +
-  //               filteredTapList[0].touch[0].pageY -
-  //               322
-  //           );
-  //           setAcceptedList((prevState) => [
-  //             ...prevState,
-  //             {
-  //               touch: filteredTapList[0].touch,
-  //               quality:
-  //                 diffZero < 30 ? (diffZero < 15 ? "Perfect" : "Good") : "Miss",
-  //               type: filteredNotes[0]?.type || "",
-  //               tapId: filteredTapList[0].touch[0].target.id,
-  //             },
-  //           ]);
-  //           setTapList([]);
-  //         }
-  //       } else {
-  //         setTapList([]);
-  //         return;
-  //       }
-  //     } else return;
-  //   }
-
-  //   if (holdList.length > 0) {
-  //     console.log(holdList);
-  //     console.log(notes);
-  //     const filteredNotes = notes.filter(
-  //       (item) =>
-  //         item.endId === Number(holdList[0]?.touch[0].target.id) &&
-  //         item.type === "holdSlide"
-  //     );
-  //     if (filteredNotes.length === 0) {
-  //       console.log("1-h");
-  //       setHoldList([]);
-  //       return;
-  //     }
-  //     console.log(filteredNotes);
-  //     console.log(acceptedList);
-  //     const filteredAccepted = acceptedList.filter(
-  //       (item) => item?.realId === Number(filteredNotes[0].id)
-  //     );
-  //     if (filteredAccepted.length > 0) {
-  //       console.log("2-h");
-  //       setHoldList([]);
-  //       return;
-  //     }
-  //     console.log("3-h");
-  //     const filteredHoldList = holdList.filter(
-  //       (item) => item.touch[0].target.className === "Bdot"
-  //       // item.touch[0].target !== document.querySelector(".playArea") &&
-  //       // document.querySelector(".touchContainer")
-  //     );
-  //     console.log(filteredHoldList);
-
-  //     const filteredAcceptedList = acceptedList.filter((item) =>
-  //       item?.type === "holdSlide"
-  //         ? item?.endId === filteredHoldList[0]?.touch[0]?.target ||
-  //           filteredHoldList[1]?.touch[0]?.target
-  //         : false
-  //     );
-
-  //     console.log(filteredAcceptedList);
-
-  //     if (filteredAcceptedList.length === 0) {
-  //       if (filteredHoldList.length === 2) {
-  //         console.log("DoubleHold");
-  //         console.log(filteredHoldList);
-  //         console.log(notes);
-  //         const filteredNotes = notes.filter(
-  //           (item) =>
-  //             item.endId === Number(filteredHoldList[1].touch[0].target.id) &&
-  //             item.type === "holdSlide"
-  //         );
-  //         const diffOne = Math.abs(
-  //           holdList[1]?.touch[0].pageX -
-  //             filteredNotes[0]?.x +
-  //             holdList[1]?.touch[0].pageY -
-  //             322
-  //         );
-  //         // const diffDuration = Math.abs(
-  //         //   holdList[1]?.dur - filteredNotes[0]?.time - 1120
-  //         // );
-  //         // console.log(diffDuration);
-  //         // console.log(diffOne);
-  //         // if (diffOne >= 30 || diffDuration > 300) return;
-  //         if (diffOne >= 30) return;
-
-  //         setAcceptedList((prevState) => [
-  //           ...prevState,
-  //           {
-  //             touch: holdList[1]?.touch[0],
-  //             realId: filteredNotes[0].id,
-  //             endType: true,
-  //             quality:
-  //               diffOne < 30 ? (diffOne < 15 ? "Perfect" : "Good") : "Miss",
-  //             type: filteredNotes[0]?.type || "",
-  //           },
-  //         ]);
-  //         setHoldList([]);
-  //         setBeats((prevState) =>
-  //           [...prevState].filter(
-  //             (item) =>
-  //               item.endId === Number(holdList[1]?.touch[0].target.id) &&
-  //               item.type === "holdSlide"
-  //           )
-  //         );
-  //       } else {
-  //         console.log("SingleHold");
-  //         console.log(filteredHoldList);
-  //         console.log(notes);
-  //         const filteredNotes = notes.filter(
-  //           (item) =>
-  //             item.endId === Number(filteredHoldList[0].touch[0].target.id)
-  //         );
-  //         const diffZero = Math.abs(
-  //           holdList[0]?.touch[0].pageX -
-  //             filteredNotes[0]?.x +
-  //             holdList[0]?.touch[0].pageY -
-  //             322
-  //         );
-  //         // const diffDuration = Math.abs(
-  //         //   holdList[0]?.dur - filteredNotes[0]?.time - 1120
-  //         // );
-  //         // console.log(diffDuration);
-  //         // console.log(diffZero);
-  //         // if (diffZero >= 30 || diffDuration > 300) return;
-  //         if (diffZero >= 30) return;
-  //         console.log(diffZero);
-
-  //         setAcceptedList((prevState) => [
-  //           ...prevState,
-  //           {
-  //             touch: holdList[0]?.touch[0],
-  //             realId: filteredNotes[0].id,
-  //             endType: true,
-  //             quality:
-  //               diffZero < 30 ? (diffZero < 15 ? "Perfect" : "Good") : "Miss",
-  //             type: filteredNotes[0]?.type || "",
-  //           },
-  //         ]);
-  //         setHoldList([]);
-  //         setBeats((prevState) =>
-  //           [...prevState].filter(
-  //             (item) => item.endId === Number(holdList[0]?.touch[0].target.id)
-  //           )
-  //         );
-  //       }
-  //     } else return;
-  //   }
   // }, [
   //   tapList,
   //   acceptedList.length,
@@ -957,10 +525,10 @@ const Rhythm = ({ start }) => {
     }
   };
 
-  const clickHandler = (id) => {
-    console.log(id);
-    setBeats((prevState) => [...prevState].filter((item) => item.id !== id));
-  };
+  // const clickHandler = (id) => {
+  //   console.log(id);
+  //   setBeats((prevState) => [...prevState].filter((item) => item.id !== id));
+  // };
 
   return (
     <>
@@ -1017,7 +585,7 @@ const Rhythm = ({ start }) => {
                       console.log(item.id);
                       console.log(e);
                       e.preventDefault();
-                      clickHandler(item.id);
+                      // clickHandler(item.id);
                     }}
                     onAnimationEnd={(id) => {
                       missHandler(id);

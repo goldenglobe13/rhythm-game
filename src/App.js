@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Rhythm from "./components/Rhythm";
 import Timer from "./components/Timer";
-import DeviceOrientation, { Orientation } from "react-screen-orientation";
 
 function App() {
   const [start, setStart] = useState(false);
@@ -10,9 +9,9 @@ function App() {
 
   // const [stop, setStop] = useState(false);
 
-  // const startHandler = () => {
-  //   setStart(new Date().getTime());
-  // };
+  const startHandler = () => {
+    setStart(new Date().getTime());
+  };
   // useEffect(() => {
   //   setStart(new Date().getTime());
   // }, []);
@@ -35,41 +34,16 @@ function App() {
     } else if (appContainer?.msRequestFullscreen) {
       appContainer?.msRequestFullscreen();
     }
-    // Screen.orientation.lock("landscape");
+    window.screen.orientation.lock("landscape-secondary");
   }, [goFull]);
 
   return (
-    // <DeviceOrientation lockOrientation={"landscape"}>
-    //   {/* Will only be in DOM in landscape */}
-    //   <Orientation orientation="landscape" alwaysRender={false}>
-    //     <div id="ris">
-    //       <Rhythm start={start} />
-    //       <Timer start={start} />
-    //       <button onClick={startHandler}>Start</button>
-    //     </div>
-    //   </Orientation>
-    //   {/* Will stay in DOM, but is only visible in portrait */}
-    //   <Orientation orientation="portrait">
-    //     <div>
-    //       <p>Please rotate your device</p>
-    //       <button onClick={(e) => setGoFull(true)}>click here</button>
-    //     </div>
-    //     {goFull && (
-    //       <div id="ris">
-    //         <Rhythm start={start} />
-    //         <Timer start={start} />
-    //         <button onClick={startHandler}>Start</button>
-    //       </div>
-    //     )}
-    //   </Orientation>
-    // </DeviceOrientation>
-
     <div id="appContainer">
       {goFull && (
         <>
           <Rhythm start={start} />
           <Timer start={start} />
-          {/* <button onClick={startHandler}>Start</button> */}
+          {!start && <button onClick={startHandler}>Start</button>}
         </>
       )}
       {!goFull && (
@@ -77,14 +51,52 @@ function App() {
           className="btn"
           onClick={(e) => {
             setGoFull(true);
-            setStart(new Date().getTime());
           }}
         >
-          Start
+          Play
         </button>
       )}
       {/* <button onClick={stopHandler}>Stop</button> */}
     </div>
+
+    // <DeviceOrientation lockOrientation={"landscape"}>
+    //   {/* Will only be in DOM in landscape */}
+    //   <Orientation orientation="landscape" alwaysRender={false}>
+    //     <div id="appContainer">
+    //       {goFull && <div>Hi</div>}
+    //       {!goFull && (
+    //         <button
+    //           className="btn"
+    //           onClick={(e) => {
+    //             setGoFull(true);
+    //             setStart(new Date().getTime());
+    //           }}
+    //         >
+    //           Start
+    //         </button>
+    //       )}
+    //       {/* <button onClick={stopHandler}>Stop</button> */}
+    //     </div>
+    //   </Orientation>
+    //   {/* Will stay in DOM, but is only visible in portrait */}
+    //   <Orientation orientation="portrait">
+    //     <div id="appContainer">
+    //       {goFull && <div>Hi</div>}
+    //       {!goFull && (
+    //         <button
+    //           className="btn"
+    //           onClick={(e) => {
+    //             setGoFull(true);
+    //             setStart(new Date().getTime());
+    //           }}
+    //         >
+    //           Start
+    //         </button>
+    //       )}
+    //       {/* <button onClick={stopHandler}>Stop</button> */}
+    //     </div>
+    //   </Orientation>
+    // </DeviceOrientation>
   );
 }
 

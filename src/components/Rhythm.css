@@ -13,7 +13,7 @@ body {
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  perspective: 30rem;
+  perspective: 0rem;
   position: relative;
 }
 
@@ -167,7 +167,7 @@ body {
   z-index: 2;
 }
 
-/* .yline1 {
+.yline1 {
   position: absolute;
   top: 50%;
   left: 620px;
@@ -195,7 +195,7 @@ body {
   height: 0.5rem;
   transform: translate(-50%, -50%);
   background-color: wheat;
-} */
+}
 
 /* .Bdot {
   width: 4rem;
