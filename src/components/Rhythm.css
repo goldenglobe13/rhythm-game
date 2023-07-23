@@ -118,8 +118,8 @@ body {
 }
 
 .Bdot {
-  width: 10rem;
-  height: 10rem;
+  width: 6rem;
+  height: 6rem;
   background-image: url(/public/beat-1.png);
   background-size: cover;
   border-radius: 50%;
@@ -133,9 +133,9 @@ body {
 }
 
 .Cdot {
-  width: 10rem;
-  height: 10rem;
-  /* background-image: url(/public/beat-1.png); */
+  width: 6rem;
+  height: 6rem;
+  background-image: url(/public/beat-1.png);
   background-color: transparent;
   background-size: cover;
   border-radius: 50%;
