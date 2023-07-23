@@ -905,7 +905,7 @@ const Rhythm = ({ start }) => {
           <div>Total: {acceptedList.length}</div>
         </div>
       )}
-      {/* <div className="curtain"></div> */}
+      <div className="curtain"></div>
       <div className="xline"></div>
       <div className="yline1"></div>
       <div className="yline2"></div>

@@ -14,10 +14,7 @@ body {
   height: 100vh;
   margin: 0 auto;
   perspective: 30rem;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
 }
 
 .touchContainer {
@@ -41,7 +38,7 @@ body {
   align-items: center;
   justify-content: center;
   background-color: transparent;
-  color: rgb(252, 255, 70);
+  color: rgb(235, 153, 235);
   font-weight: bold;
   opacity: 50%;
   height: 3rem;
@@ -140,7 +137,7 @@ body {
 .Cdot {
   width: 6rem;
   height: 6rem;
-  /* background-image: url(/public/beat-1.png); */
+  background-image: url(/public/beat-1.png);
   background-color: transparent;
   background-size: cover;
   border-radius: 50%;
@@ -243,7 +240,7 @@ body {
   justify-content: center;
   gap: 0.8rem;
   background-color: aliceblue;
-  color: rgb(0, 75, 140);
+  color: rgb(55, 189, 7);
   font-weight: bold;
   height: 18rem;
   border-radius: 1rem;

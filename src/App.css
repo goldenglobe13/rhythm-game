@@ -1,3 +1,7 @@
+#appContainer {
+  background-color: rgb(151, 100, 100);
+}
+
 button {
   width: 10rem;
   height: 5rem;
