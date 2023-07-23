@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Rhythm.css";
+import { current } from "@reduxjs/toolkit";
 
 // const r = document.querySelector(":root");
 let Y = 339.86;
@@ -151,11 +152,15 @@ const Rhythm = ({ start }) => {
   const [list, setList] = useState([]);
   const [acceptedList, setAcceptedList] = useState([]);
   const [beats, setBeats] = useState(notesDisp);
+  const [currentAccepeted, setCurrentAccepeted] = useState([]);
+  const [streak, setStreak] = useState("");
   // const [tapList, setTapList] = useState([]);
   // const [endList, setEndList] = useState([]);
   // // const [moveList, setMoveList] = useState([]);
   // const [holdList, setHoldList] = useState([]);
   // const [holdingEffect, setHoldingEffect] = useState(false);
+
+  console.log(currentAccepeted);
 
   // console.log("Top");
 
@@ -186,6 +191,21 @@ const Rhythm = ({ start }) => {
     console.log(notes);
     console.log(Y);
   }, []);
+
+  useEffect(() => {
+    // const filteredAccepted = acceptedList.filter(
+    //   (item) => item.quality === "Miss"
+    // );
+    // console.log(filteredAccepted);
+    if (acceptedList.length === 0) return;
+    if (acceptedList[acceptedList.length - 1]?.quality === "Miss") {
+      console.log("heeee");
+      setStreak("");
+    } else {
+      console.log("oooooool");
+      setStreak((prevState) => Number(prevState) + 1);
+    }
+  }, [acceptedList]);
 
   const touchStartHandler = (e) => {
     const dur = new Date().getTime() - start;
@@ -610,6 +630,7 @@ const Rhythm = ({ start }) => {
                 dur: dur,
               },
             ]);
+
             setBeats((prevState) =>
               [...prevState].filter(
                 (item) => item.endId === Number(endList[0]?.touch[1].target.id)
@@ -648,6 +669,7 @@ const Rhythm = ({ start }) => {
                 dur: dur,
               },
             ]);
+
             setBeats((prevState) =>
               [...prevState].filter(
                 (item) => item.endId === Number(endList[0]?.touch[0].target.id)
@@ -812,11 +834,58 @@ const Rhythm = ({ start }) => {
         </div>
 
         <div className="quality">
-          {acceptedList[acceptedList?.length - 1]?.quality}
+          <div>{acceptedList[acceptedList?.length - 1]?.quality}</div>
+          <div>{streak}</div>
         </div>
 
         {/* <div className="newPlayArea"></div> */}
       </div>
+      {acceptedList.length === notes.length && (
+        <div className="summary">
+          <div>Summary</div>
+          <div>
+            SuperPerfect:{" "}
+            {acceptedList.reduce((acc, obj) => {
+              console.log(acc);
+              console.log(obj);
+              if (obj.quality === "SuperPerfect") {
+                return acc + 1;
+              } else return acc;
+            }, 0)}
+          </div>
+          <div>
+            Perfect:{" "}
+            {acceptedList.reduce((acc, obj) => {
+              console.log(acc);
+              console.log(obj);
+              if (obj.quality === "Perfect") {
+                return acc + 1;
+              } else return acc;
+            }, 0)}
+          </div>
+          <div>
+            Good:{" "}
+            {acceptedList.reduce((acc, obj) => {
+              console.log(acc);
+              console.log(obj);
+              if (obj.quality === "Good") {
+                return acc + 1;
+              } else return acc;
+            }, 0)}
+          </div>
+          <div>
+            Miss:{" "}
+            {acceptedList.reduce((acc, obj) => {
+              console.log(acc);
+              console.log(obj);
+              if (obj.quality === "Miss") {
+                return acc + 1;
+              } else return acc;
+            }, 0)}
+          </div>
+          <div>Total: {acceptedList.length}</div>
+        </div>
+      )}
       <div className="xline"></div>
       <div className="yline1"></div>
       <div className="yline2"></div>
