@@ -49,6 +49,7 @@ body {
   left: 50%;
   /* transform: rotateX(45deg) translate(-50%, -50%); */
   transform: translate(-50%, -50%);
+  z-index: 30;
 }
 
 .dot {
@@ -238,7 +239,6 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.8rem;
-  background-color: transparent;
   background-color: aliceblue;
   color: rgb(55, 189, 7);
   font-weight: bold;
@@ -251,4 +251,17 @@ body {
   left: 50%;
   /* transform: rotateX(45deg) translate(-50%, -50%); */
   transform: translate(-50%, -50%);
+  z-index: 30;
+}
+
+.curtain {
+  position: absolute;
+  top: 16%;
+  left: 50%;
+  /* transform: rotateX(45deg) translate(-50%, -50%); */
+  transform: translate(-50%, -50%);
+  background-color: rgb(151, 100, 100);
+  width: 34rem;
+  height: 10rem;
+  z-index: 28;
 }

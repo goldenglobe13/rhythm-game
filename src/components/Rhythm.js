@@ -120,6 +120,26 @@ const notesDisp = [
   { x: 650, time: 2500, id: 12, type: "startSlide" },
   { x: 130, time: 2700, id: 13, type: "startSlide" },
   { x: 600, time: 2900, id: 14, type: "startSlide" },
+  { x: 600, time: 3500, id: 15, type: "startSlide" },
+  {
+    h: true,
+    x1: 600,
+    x2: 300,
+    time: 3500,
+    id: 16,
+    dTime: 1500,
+  },
+  { x: 300, time: 5000, id: 17, endId: 15, type: "endSlide" },
+  { x: 110, time: 4200, id: 18, type: "startSlide" },
+  {
+    h: true,
+    x1: 110,
+    x2: 110,
+    time: 4200,
+    id: 19,
+    dTime: 800,
+  },
+  { x: 110, time: 5000, id: 20, endId: 18, type: "endSlide" },
 ];
 
 let notes = [
@@ -133,6 +153,10 @@ let notes = [
   { time: 2500, id: 12, type: "startSlide" },
   { time: 2700, id: 13, type: "startSlide" },
   { time: 2900, id: 14, type: "startSlide" },
+  { time: 3500, id: 15, type: "startSlide" },
+  { time: 5000, id: 17, endId: 15, type: "endSlide" },
+  { time: 4200, id: 18, type: "startSlide" },
+  { time: 5000, id: 20, endId: 18, type: "endSlide" },
 ];
 
 const notesToPers = [
@@ -146,6 +170,10 @@ const notesToPers = [
   { x: 650, time: 2500, id: 12, type: "startSlide" },
   { x: 130, time: 2700, id: 13, type: "startSlide" },
   { x: 600, time: 2900, id: 14, type: "startSlide" },
+  { x: 600, time: 3500, id: 15, type: "startSlide" },
+  { x: 300, time: 5000, id: 17, endId: 15, type: "endSlide" },
+  { x: 110, time: 4200, id: 18, type: "startSlide" },
+  { x: 110, time: 5000, id: 20, endId: 18, type: "endSlide" },
 ];
 
 const Rhythm = ({ start }) => {
@@ -833,12 +861,11 @@ const Rhythm = ({ start }) => {
           <div className="playArea"></div>
         </div>
 
-        <div className="quality">
-          <div>{acceptedList[acceptedList?.length - 1]?.quality}</div>
-          <div>{streak}</div>
-        </div>
-
         {/* <div className="newPlayArea"></div> */}
+      </div>
+      <div className="quality">
+        <div>{acceptedList[acceptedList?.length - 1]?.quality}</div>
+        <div>{streak}</div>
       </div>
       {acceptedList.length === notes.length && (
         <div className="summary">
@@ -846,8 +873,6 @@ const Rhythm = ({ start }) => {
           <div>
             SuperPerfect:{" "}
             {acceptedList.reduce((acc, obj) => {
-              console.log(acc);
-              console.log(obj);
               if (obj.quality === "SuperPerfect") {
                 return acc + 1;
               } else return acc;
@@ -856,8 +881,6 @@ const Rhythm = ({ start }) => {
           <div>
             Perfect:{" "}
             {acceptedList.reduce((acc, obj) => {
-              console.log(acc);
-              console.log(obj);
               if (obj.quality === "Perfect") {
                 return acc + 1;
               } else return acc;
@@ -866,8 +889,6 @@ const Rhythm = ({ start }) => {
           <div>
             Good:{" "}
             {acceptedList.reduce((acc, obj) => {
-              console.log(acc);
-              console.log(obj);
               if (obj.quality === "Good") {
                 return acc + 1;
               } else return acc;
@@ -876,8 +897,6 @@ const Rhythm = ({ start }) => {
           <div>
             Miss:{" "}
             {acceptedList.reduce((acc, obj) => {
-              console.log(acc);
-              console.log(obj);
               if (obj.quality === "Miss") {
                 return acc + 1;
               } else return acc;
@@ -886,6 +905,7 @@ const Rhythm = ({ start }) => {
           <div>Total: {acceptedList.length}</div>
         </div>
       )}
+      <div className="curtain"></div>
       <div className="xline"></div>
       <div className="yline1"></div>
       <div className="yline2"></div>
