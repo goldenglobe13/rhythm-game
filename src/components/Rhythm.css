@@ -1,5 +1,7 @@
 :root {
-  --base-duration: 1400ms;
+  --base-duration: 1600ms;
+  --deg-iso: 15deg;
+  --deg: 15deg;
 }
 
 html,
@@ -8,16 +10,49 @@ body {
   overflow: hidden;
 }
 
-.bigContainer {
+/* .bigContainerIso {
   background-color: rgb(151, 100, 100);
   width: 100%;
-  height: 100vh;
+  height: 200vh;
   margin: 0 auto;
-  perspective: 30rem;
+  perspective: 0rem;
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  display: none;
+} */
+
+/* .touchContainerIso {
   position: absolute;
   top: 50%;
   left: 50%;
+  margin: 0rem auto;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(19, 0, 51);
+  box-shadow: 5px 5px 20px 5px rgb(19, 0, 51);
+  border-left: 0.5rem solid white;
+  border-right: 0.5rem solid white;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--deg-iso)) translate(-50%, -50%);
+  display: none;
+} */
+
+.bigContainer {
+  background-color: rgb(151, 100, 100);
+  width: 100%;
+  height: 200vh;
+  margin: 0 auto;
+  perspective: 5rem;
+  position: absolute;
+  top: 20%;
+  left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 28;
+  /* opacity: 50%; */
+  /* background-color: transparent; */
 }
 
 .touchContainer {
@@ -31,8 +66,11 @@ body {
   box-shadow: 5px 5px 20px 5px rgb(19, 0, 51);
   border-left: 0.5rem solid white;
   border-right: 0.5rem solid white;
+  transform: rotateX(var(--deg)) translate(-50%, -50%);
+  z-index: 27;
   /* transform-style: preserve-3d; */
-  transform: rotateX(45deg) translate(-50%, -50%);
+  /* opacity: 50%; */
+  /* background-color: transparent; */
 }
 
 .quality {
@@ -56,8 +94,8 @@ body {
 }
 
 .dot {
-  width: 6rem;
-  height: 230%;
+  width: 12rem;
+  height: 200%;
   opacity: 80%;
   background-color: #f2ff00;
   box-shadow: 0px 0px 1px 5px #f2ff00;
@@ -65,6 +103,7 @@ body {
   top: 50%;
   left: 50%;
   z-index: 5;
+  /* transform: rotateX(var(--deg)) translate(-50%, -50%); */
   transform: rotateX(0deg) translate(-50%, -50%);
 }
 
@@ -99,54 +138,87 @@ body {
 .playArea {
   width: 100%;
   height: 4rem;
-  background-color: rgba(0, 226, 211, 0.671);
-  box-shadow: 5px 5px 20px 5px rgba(2, 165, 224, 0.671);
+  background-color: rgba(188, 188, 188, 0.671);
+  box-shadow: 5px 5px 20px 5px rgba(71, 71, 71, 0.671);
   position: absolute;
-  top: 332px;
+  /* top: 332px; */
+  top: 706px;
   left: 50%;
-  z-index: 1;
+  z-index: 28;
   opacity: 70%;
+  /* transform: rotateX(var(--deg)) translate(-50%, -50%); */
   transform: rotateX(0deg) translate(-50%, -50%);
 }
 
 .newPlayArea {
   width: 100%;
   height: 3rem;
-  background-color: rgba(0, 226, 211, 0.671);
+  background-color: rgba(214, 214, 214, 0.671);
   box-shadow: 5px 5px 20px 5px rgba(2, 165, 224, 0.671);
   position: absolute;
-  top: 332px;
+  /* top: 332px; */
+  top: 39.48px;
   left: 50%;
   z-index: 20;
   opacity: 70%;
-  transform: rotateX(0deg) translate(-50%, -50%);
+  transform: rotateX(var(--deg)) translate(-50%, -50%);
 }
 
 .Bdot {
-  width: 6rem;
-  height: 6rem;
-  background-image: url(/public/beat-1.png);
+  width: 10rem;
+  height: 5rem;
+  /* background-color: #f2ff00; */
   background-size: cover;
   border-radius: 50%;
   position: absolute;
-  top: -148px;
-  z-index: 27;
+  top: 0px;
+  z-index: 29;
   animation-name: moving;
   animation-duration: var(--base-duration);
   animation-timing-function: linear;
-  transform: rotateX(0deg) translate(-50%, -50%);
+  /* transform: rotateX(var(--deg)) translate(-50%, -50%); */
+  transform: rotateX(15deg) translate(-50%, -50%);
+}
+
+.BdotY {
+  background-image: url(/public/newBeat-el-cr-y.png);
+}
+
+.BdotB {
+  background-image: url(/public/newBeat-el-cr-b.png);
 }
 
 .Cdot {
-  width: 6rem;
-  height: 6rem;
-  /* background-image: url(/public/beat-1.png); */
+  width: 10rem;
+  height: 5rem;
+  /* background-color: #f2ff00; */
+  /* border: 1px solid black; */
+  /* border: 1px solid white; */
+  /* box-shadow: 0px 0px 3px 3px rgba(2, 224, 213, 0.671); */
+  /* background-image: url(/public/beat-el-cr-b.png); */
   background-color: transparent;
   background-size: cover;
   border-radius: 50%;
   position: absolute;
+  z-index: 29;
+  /* transform: rotateX(var(--deg)) translate(-50%, -50%); */
+  transform: rotateX(45deg) translate(-50%, -50%);
+  background-color: transparent;
+}
+
+.Ddot {
+  width: 10rem;
+  height: 5rem;
+  background-image: url(/public/newBeat-el-cr-b.png);
+  /* background-color: transparent; */
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  position: absolute;
   z-index: 27;
+  /* transform: rotateX(var(--deg)) translate(-50%, -50%); */
   transform: rotateX(0deg) translate(-50%, -50%);
+  display: none;
 }
 
 .lineA {
@@ -167,11 +239,13 @@ body {
 
 @keyframes moving {
   0% {
-    top: -148px;
+    /* top: -148px; */
+    top: 0px;
   }
 
   100% {
-    top: 452px;
+    /* top: 452px; */
+    top: 800px;
   }
 }
 
@@ -216,7 +290,7 @@ body {
 
 #divsList {
   /* display: none; */
-  z-index: -5;
+  z-index: 27;
 }
 
 /* .Bdot {
@@ -254,7 +328,8 @@ body {
   left: 50%;
   /* transform: rotateX(45deg) translate(-50%, -50%); */
   transform: translate(-50%, -50%);
-  z-index: 30;
+  z-index: 50;
+  /* display: none; */
 }
 
 .curtain {

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import "./Rhythm.css";
-import { current } from "@reduxjs/toolkit";
 
 // const r = document.querySelector(":root");
-let Y = 339.86;
+// let Y = 339.86;
+let Y = 335.04;
 const quality = { accepted: 50, good: 25, perfect: 15 };
 function diffPos(first, second, index) {
   const d = Math.abs(
@@ -78,7 +78,7 @@ function qualityCheck(diff) {
 //   }
 // }
 const notesDisp = [
-  { x: 620, time: 0, id: 1, type: "startSlide" },
+  { x: 620, time: 0, id: 1, type: "startSlide", color: "yellow" },
   {
     h: true,
     x1: 620,
@@ -87,7 +87,7 @@ const notesDisp = [
     id: 2,
     dTime: 1000,
   },
-  { x: 420, time: 1000, id: 3, endId: 1, type: "holdSlide" },
+  { x: 420, time: 1000, id: 3, endId: 1, type: "holdSlide", color: "yellow" },
   {
     h: true,
     x1: 420,
@@ -96,8 +96,8 @@ const notesDisp = [
     id: 4,
     dTime: 1000,
   },
-  { x: 620, time: 2000, id: 5, endId: 1, type: "endSlide" },
-  { x: 100, time: 0, id: 6, type: "startSlide" },
+  { x: 620, time: 2000, id: 5, endId: 1, type: "endSlide", color: "yellow" },
+  { x: 100, time: 0, id: 6, type: "startSlide", color: "yellow" },
   {
     h: true,
     x1: 100,
@@ -106,7 +106,7 @@ const notesDisp = [
     id: 7,
     dTime: 1000,
   },
-  { x: 200, time: 1000, id: 8, endId: 6, type: "holdSlide" },
+  { x: 200, time: 1000, id: 8, endId: 6, type: "holdSlide", color: "yellow" },
   {
     h: true,
     x1: 200,
@@ -115,12 +115,12 @@ const notesDisp = [
     id: 9,
     dTime: 1000,
   },
-  { x: 100, time: 2000, id: 10, endId: 6, type: "endSlide" },
-  { x: 150, time: 2500, id: 11, type: "startSlide" },
-  { x: 650, time: 2500, id: 12, type: "startSlide" },
-  { x: 130, time: 2700, id: 13, type: "startSlide" },
-  { x: 600, time: 2900, id: 14, type: "startSlide" },
-  { x: 600, time: 3500, id: 15, type: "startSlide" },
+  { x: 100, time: 2000, id: 10, endId: 6, type: "endSlide", color: "yellow" },
+  { x: 150, time: 2500, id: 11, type: "startSlide", color: "blue" },
+  { x: 650, time: 2500, id: 12, type: "startSlide", color: "blue" },
+  { x: 130, time: 2700, id: 13, type: "startSlide", color: "blue" },
+  { x: 600, time: 2900, id: 14, type: "startSlide", color: "blue" },
+  { x: 600, time: 3500, id: 15, type: "startSlide", color: "yellow" },
   {
     h: true,
     x1: 600,
@@ -129,8 +129,8 @@ const notesDisp = [
     id: 16,
     dTime: 1500,
   },
-  { x: 300, time: 5000, id: 17, endId: 15, type: "endSlide" },
-  { x: 110, time: 4200, id: 18, type: "startSlide" },
+  { x: 300, time: 5000, id: 17, endId: 15, type: "endSlide", color: "yellow" },
+  { x: 110, time: 4200, id: 18, type: "startSlide", color: "yellow" },
   {
     h: true,
     x1: 110,
@@ -139,7 +139,7 @@ const notesDisp = [
     id: 19,
     dTime: 800,
   },
-  { x: 110, time: 5000, id: 20, endId: 18, type: "endSlide" },
+  { x: 110, time: 5000, id: 20, endId: 18, type: "endSlide", color: "yellow" },
 ];
 
 let notes = [
@@ -180,15 +180,12 @@ const Rhythm = ({ start }) => {
   const [list, setList] = useState([]);
   const [acceptedList, setAcceptedList] = useState([]);
   const [beats, setBeats] = useState(notesDisp);
-  const [currentAccepeted, setCurrentAccepeted] = useState([]);
   const [streak, setStreak] = useState("");
   // const [tapList, setTapList] = useState([]);
   // const [endList, setEndList] = useState([]);
   // // const [moveList, setMoveList] = useState([]);
   // const [holdList, setHoldList] = useState([]);
   // const [holdingEffect, setHoldingEffect] = useState(false);
-
-  console.log(currentAccepeted);
 
   // console.log("Top");
 
@@ -221,16 +218,10 @@ const Rhythm = ({ start }) => {
   }, []);
 
   useEffect(() => {
-    // const filteredAccepted = acceptedList.filter(
-    //   (item) => item.quality === "Miss"
-    // );
-    // console.log(filteredAccepted);
     if (acceptedList.length === 0) return;
     if (acceptedList[acceptedList.length - 1]?.quality === "Miss") {
-      console.log("heeee");
       setStreak("");
     } else {
-      console.log("oooooool");
       setStreak((prevState) => Number(prevState) + 1);
     }
   }, [acceptedList]);
@@ -281,7 +272,9 @@ const Rhythm = ({ start }) => {
         }
 
         const filteredTapList = tapList.filter(
-          (item) => item.touch[0].target.className === "Bdot"
+          (item) =>
+            item.touch[0].target.className === "Bdot BdotB" ||
+            item.touch[0].target.className === "Bdot BdotY"
         );
 
         const filteredAcceptedList = acceptedList.filter((item) =>
@@ -392,7 +385,9 @@ const Rhythm = ({ start }) => {
         }
         console.log(filteredAccepted);
         const filteredHoldList = holdList.filter(
-          (item) => item.touch?.target.className === "Bdot"
+          (item) =>
+            item.touch?.target.className === "Bdot BdotB" ||
+            item.touch?.target.className === "Bdot BdotY"
         );
         console.log(filteredHoldList);
         const filteredAcceptedList = acceptedList.filter((item) =>
@@ -616,7 +611,9 @@ const Rhythm = ({ start }) => {
         }
 
         const filteredEndList = endList.filter(
-          (item) => item.touch[0].target.className === "Bdot"
+          (item) =>
+            item.touch[0].target.className === "Bdot BdotB" ||
+            item.touch[0].target.className === "Bdot BdotY"
         );
 
         const filteredAcceptedList = acceptedList.filter((item) =>
@@ -777,25 +774,33 @@ const Rhythm = ({ start }) => {
 
   return (
     <>
-      <div
-        className="bigContainer"
-        onTouchStart={touchStartHandler}
-        onTouchEnd={touchEndHandler}
-        onTouchCancel={touchCancelHandler}
-        onTouchMove={touchMoveHandler}
-      >
+      {/* <div className="bigContainerIso">
+        <div className="touchContainerIso"></div>
+      </div> */}
+      <div className="bigContainer">
         <div className="touchContainer">
+          <div
+            className="playArea"
+            onTouchStart={touchStartHandler}
+            onTouchEnd={touchEndHandler}
+            onTouchCancel={touchCancelHandler}
+            onTouchMove={touchMoveHandler}
+          ></div>
+          {/* <div
+            style={{ left: `${130}px`, top: `160px` }}
+            className={"Ddot"}
+          ></div> */}
           <div id="divsList">
             {notesToPers.map((item, i) => {
               return (
                 <div
                   key={item.id}
-                  style={{ left: `${item.x}px`, top: `332px` }}
+                  style={{ left: `${item.x}px`, top: `696px` }}
                   // className={holdingEffect ? "dot holdEffect" : "dot"}
                   className={"Cdot"}
                 ></div>
               );
-            })}{" "}
+            })}
           </div>
           {list.map((touch, i) => {
             return (
@@ -818,26 +823,31 @@ const Rhythm = ({ start }) => {
                     id={item.id}
                     key={item.id}
                     style={{
-                      "--1-slide-top": `calc((1400px + ${item.dTime}px)*3/7 - 148px)`,
+                      // "--1-slide-top": `calc((1400px + ${item.dTime}px)*3/7 - 148px)`,
+                      "--1-slide-top": `calc((1600px + ${item.dTime}px)*3/6 + 0px)`,
                       width: "1000",
-                      height: "5000",
+                      height: "10000",
                       animationDelay: `${item.time}ms`,
-                      top: `-148px`,
+                      top: `0px`,
                       animationDuration: `calc(var(--base-duration) + ${item.dTime}ms)`,
                     }}
                   >
                     <line
                       className="lineStroke"
                       x1={item.x2}
-                      y1={2500 - (item.dTime * 3) / 7}
+                      y1={5000 - (item.dTime * 3) / 6}
                       x2={item.x1}
-                      y2="2500"
+                      y2="5000"
                     ></line>
                   </svg>
                 );
               } else {
                 return (
                   <div
+                    onTouchStart={touchStartHandler}
+                    onTouchEnd={touchEndHandler}
+                    onTouchCancel={touchCancelHandler}
+                    onTouchMove={touchMoveHandler}
                     onClick={(e, id) => {
                       console.log(item.id);
                       console.log(e);
@@ -849,7 +859,9 @@ const Rhythm = ({ start }) => {
                     }}
                     key={item.id}
                     id={item.id}
-                    className="Bdot"
+                    className={
+                      item.color === "blue" ? "Bdot BdotB" : "Bdot BdotY"
+                    }
                     style={{
                       left: `${item.x}px`,
                       animationDelay: `${item.time}ms`,
@@ -858,7 +870,6 @@ const Rhythm = ({ start }) => {
                 );
               }
             })}
-          <div className="playArea"></div>
         </div>
 
         {/* <div className="newPlayArea"></div> */}

@@ -43,7 +43,11 @@ function App() {
         <>
           <Rhythm start={start} />
           <Timer start={start} />
-          {!start && <button onClick={startHandler}>Start</button>}
+          {!start && (
+            <button className="start" onClick={startHandler}>
+              Start
+            </button>
+          )}
         </>
       )}
       {!goFull && (
