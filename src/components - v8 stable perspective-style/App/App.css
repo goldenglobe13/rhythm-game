@@ -31,34 +31,3 @@ button {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
-.back {
-  width: 5rem;
-  height: 3rem;
-  background-color: rgb(94, 187, 0);
-  position: absolute;
-  top: 50%;
-  left: 90%;
-  transform: translate(-50%, -50%);
-  z-index: 50;
-}
-
-.ready {
-  width: 16rem;
-  height: 8rem;
-  background-color: rgb(255, 0, 111);
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.rec {
-  width: 16rem;
-  height: 8rem;
-  background-color: rgb(187, 0, 197);
-  position: absolute;
-  top: 70%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}

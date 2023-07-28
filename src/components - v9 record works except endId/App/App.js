@@ -14,10 +14,6 @@ function App() {
 
   const startHandler = () => {
     setStart(new Date().getTime());
-    let audio = document.getElementById("nomb");
-    audio.load();
-    audio.playbackRate = 1;
-    audio.play();
   };
   // useEffect(() => {
   //   setStart(new Date().getTime());
@@ -46,7 +42,6 @@ function App() {
 
   return (
     <div id="appContainer">
-      <audio id="nomb" src="./nomb.mp3"></audio>
       {goFull && !ready && !record && (
         <>
           <button
