@@ -4,7 +4,7 @@ import Papa from "papaparse";
 
 // const r = document.querySelector(":root");
 // let Y = 339.86;
-let Y = 333.66;
+let Y = 335.196;
 
 function exportToCsv(filename, rows) {
   var processRow = function (row) {
@@ -209,7 +209,7 @@ const RhythmRec = ({ start }) => {
             time: item.time,
             id: notesDispNew.length + 1,
             endId: Number(item.endId),
-            type: item.type === "tap" ? "startSlide" : item.type,
+            type: item.type,
             newType: item.type,
           },
         ];
@@ -221,7 +221,7 @@ const RhythmRec = ({ start }) => {
             time: item.time,
             id: notesDispNew.length + 1,
             endId: Number(item.endId),
-            type: item.type === "tap" ? "startSlide" : item.type,
+            type: item.type,
             newType: item.type,
           },
           {
