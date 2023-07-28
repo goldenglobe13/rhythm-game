@@ -378,8 +378,8 @@ const RhythmRec = ({ start }) => {
               return (
                 <div
                   key={item.id}
-                  // style={{ left: `${item.x}px`, top: `88.55%` }}
-                  style={{ left: `${item.x}px`, top: `696px` }}
+                  style={{ left: `${item.x}px`, top: `88.55%` }}
+                  // style={{ left: `${item.x}px`, top: `696px` }}
                   className={"Cdot"}
                 ></div>
               );
