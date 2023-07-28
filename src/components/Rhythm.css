@@ -168,6 +168,8 @@ body {
 .Bdot {
   width: 10rem;
   height: 5rem;
+  color: rgb(172, 0, 0);
+  font-size: 5rem;
   /* background-color: #f2ff00; */
   background-size: cover;
   border-radius: 50%;

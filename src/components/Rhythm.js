@@ -43,7 +43,7 @@ const notes = my_notes;
 const Rhythm = ({ start }) => {
   const [list, setList] = useState([]);
   const [acceptedList, setAcceptedList] = useState([]);
-  // const [beats, setBeats] = useState(notesDisp);
+  const [beats, setBeats] = useState(notesDisp);
   const [streak, setStreak] = useState("");
 
   // console.log("Top");
@@ -601,10 +601,16 @@ const Rhythm = ({ start }) => {
     }
   };
 
-  // const clickHandler = (id) => {
-  //   console.log(id);
-  //   setBeats((prevState) => [...prevState].filter((item) => item.id !== id));
-  // };
+  const clickHandler = (id) => {
+    const filteredNotes = notes.filter(
+      (item) => item.type === "tap" && Number(item.id) === id
+    );
+    console.log(filteredNotes);
+    if (filteredNotes.length === 1) {
+      console.log(id);
+      setBeats((prevState) => [...prevState].filter((item) => item.id !== id));
+    }
+  };
 
   return (
     <>
@@ -647,7 +653,7 @@ const Rhythm = ({ start }) => {
           })}
 
           {start &&
-            notesDisp.map((item, i) => {
+            beats.map((item, i) => {
               if (item.h) {
                 return (
                   <svg
@@ -683,7 +689,7 @@ const Rhythm = ({ start }) => {
                       console.log(item.id);
                       console.log(e);
                       e.preventDefault();
-                      // clickHandler(item.id);
+                      clickHandler(item.id);
                     }}
                     onAnimationEnd={(id) => {
                       missHandler(id);
@@ -697,7 +703,9 @@ const Rhythm = ({ start }) => {
                       left: `${item.x}px`,
                       animationDelay: `${item.time}ms`,
                     }}
-                  ></div>
+                  >
+                    {item.id}
+                  </div>
                 );
               }
             })}
