@@ -50,7 +50,7 @@ const Rhythm = ({ start }) => {
   // console.log(beats);
   // console.log(list);
 
-  console.log(acceptedList);
+  // console.log(acceptedList);
   // console.log(notes);
   // console.log(notesDisp);
 
@@ -169,6 +169,15 @@ const Rhythm = ({ start }) => {
               } else {
                 return [...prevState];
               }
+            });
+            console.log(filteredTapList[0].touch[0].target.id);
+            setBeats((prevState) => {
+              return [...prevState].filter(
+                (item) =>
+                  Number(item.id) !==
+                    Number(filteredTapList[0].touch[0].target.id) &&
+                  item.type === "tap"
+              );
             });
           }
         } else return;
@@ -601,16 +610,16 @@ const Rhythm = ({ start }) => {
     }
   };
 
-  const clickHandler = (id) => {
-    const filteredNotes = notes.filter(
-      (item) => item.type === "tap" && Number(item.id) === id
-    );
-    console.log(filteredNotes);
-    if (filteredNotes.length === 1) {
-      console.log(id);
-      setBeats((prevState) => [...prevState].filter((item) => item.id !== id));
-    }
-  };
+  // const clickHandler = (id) => {
+  //   const filteredNotes = notes.filter(
+  //     (item) => item.type === "tap" && Number(item.id) === id
+  //   );
+  //   console.log(filteredNotes);
+  //   if (filteredNotes.length === 1) {
+  //     console.log(id);
+  //     setBeats((prevState) => [...prevState].filter((item) => item.id !== id));
+  //   }
+  // };
 
   return (
     <>
@@ -653,7 +662,7 @@ const Rhythm = ({ start }) => {
           })}
 
           {start &&
-            beats.map((item, i) => {
+            notesDisp.map((item, i) => {
               if (item.h) {
                 return (
                   <svg
@@ -689,7 +698,7 @@ const Rhythm = ({ start }) => {
                       console.log(item.id);
                       console.log(e);
                       e.preventDefault();
-                      clickHandler(item.id);
+                      // clickHandler(item.id);
                     }}
                     onAnimationEnd={(id) => {
                       missHandler(id);
