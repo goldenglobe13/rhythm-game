@@ -48,8 +48,9 @@ const Rhythm = ({ start }) => {
 
   // console.log("Top");
   // console.log(beats);
-  console.log(list);
-
+  // console.log(list);
+  // console.log(notes.length);
+  // console.log(acceptedList.length);
   // console.log(acceptedList);
   // console.log(notes);
   // console.log(notesDisp);
@@ -612,16 +613,16 @@ const Rhythm = ({ start }) => {
     }
   };
 
-  const clickHandler = (id) => {
-    const filteredNotes = notes.filter(
-      (item) => item.type === "tap" && Number(item.id) === id
-    );
-    console.log(filteredNotes);
-    if (filteredNotes.length === 1) {
-      console.log(id);
-      setBeats((prevState) => [...prevState].filter((item) => item.id !== id));
-    }
-  };
+  // const clickHandler = (id) => {
+  //   const filteredNotes = notes.filter(
+  //     (item) => item.type === "tap" && Number(item.id) === id
+  //   );
+  //   console.log(filteredNotes);
+  //   if (filteredNotes.length === 1) {
+  //     console.log(id);
+  //     setBeats((prevState) => [...prevState].filter((item) => item.id !== id));
+  //   }
+  // };
 
   return (
     <>
@@ -677,7 +678,7 @@ const Rhythm = ({ start }) => {
                       console.log(item.id);
                       console.log(e);
                       e.preventDefault();
-                      clickHandler(item.id);
+                      // clickHandler(item.id);
                     }}
                     onAnimationEnd={(id) => {
                       missHandler(id);
