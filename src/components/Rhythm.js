@@ -48,7 +48,7 @@ const Rhythm = ({ start }) => {
 
   // console.log("Top");
   // console.log(beats);
-  // console.log(list);
+  console.log(list);
 
   // console.log(acceptedList);
   // console.log(notes);
@@ -149,6 +149,17 @@ const Rhythm = ({ start }) => {
             const diffZero = diffPos(filteredTapList, filteredNotes, 0);
             console.log(filteredNotes);
             console.log(diffZero);
+            console.log(filteredTapList[0].touch[0].target.id);
+            // if (diffZero <= 50) {
+            //   setBeats((prevState) => {
+            //     return [...prevState].filter(
+            //       (item) =>
+            //         Number(item.id) !==
+            //           Number(filteredTapList[0].touch[0].target.id) &&
+            //         item.type === "tap"
+            //     );
+            //   });
+            // }
             setAcceptedList((prevState) => {
               const Duplicate = [...prevState]?.filter(
                 (item) => Number(item?.tapId) === filteredNotes[0].id
@@ -169,15 +180,6 @@ const Rhythm = ({ start }) => {
               } else {
                 return [...prevState];
               }
-            });
-            console.log(filteredTapList[0].touch[0].target.id);
-            setBeats((prevState) => {
-              return [...prevState].filter(
-                (item) =>
-                  Number(item.id) !==
-                    Number(filteredTapList[0].touch[0].target.id) &&
-                  item.type === "tap"
-              );
             });
           }
         } else return;
@@ -610,16 +612,16 @@ const Rhythm = ({ start }) => {
     }
   };
 
-  // const clickHandler = (id) => {
-  //   const filteredNotes = notes.filter(
-  //     (item) => item.type === "tap" && Number(item.id) === id
-  //   );
-  //   console.log(filteredNotes);
-  //   if (filteredNotes.length === 1) {
-  //     console.log(id);
-  //     setBeats((prevState) => [...prevState].filter((item) => item.id !== id));
-  //   }
-  // };
+  const clickHandler = (id) => {
+    const filteredNotes = notes.filter(
+      (item) => item.type === "tap" && Number(item.id) === id
+    );
+    console.log(filteredNotes);
+    if (filteredNotes.length === 1) {
+      console.log(id);
+      setBeats((prevState) => [...prevState].filter((item) => item.id !== id));
+    }
+  };
 
   return (
     <>
@@ -655,12 +657,45 @@ const Rhythm = ({ start }) => {
                 style={{ left: `${touch.pageX}px`, top: `${touch.pageY}px` }}
                 // className={holdingEffect ? "dot holdEffect" : "dot"}
                 className={"dot"}
-                id={touch.identifier}
-                key={touch.identifier}
+                id={touch.target.id}
+                key={touch.target.id}
               ></div>
             );
           })}
 
+          {start &&
+            beats
+              .filter((item) => !item.h)
+              .map((item, i) => {
+                return (
+                  <div
+                    onTouchStart={touchStartHandler}
+                    onTouchEnd={touchEndHandler}
+                    onTouchCancel={touchCancelHandler}
+                    onTouchMove={touchMoveHandler}
+                    onClick={(e, id) => {
+                      console.log(item.id);
+                      console.log(e);
+                      e.preventDefault();
+                      clickHandler(item.id);
+                    }}
+                    onAnimationEnd={(id) => {
+                      missHandler(id);
+                    }}
+                    key={item.id}
+                    id={item.id}
+                    className={
+                      item.newType === "tap" ? "Bdot BdotB" : "Bdot BdotY"
+                    }
+                    style={{
+                      left: `${item.x}px`,
+                      animationDelay: `${item.time}ms`,
+                    }}
+                  >
+                    {item.id}
+                  </div>
+                );
+              })}
           {start &&
             notesDisp.map((item, i) => {
               if (item.h) {
@@ -690,31 +725,14 @@ const Rhythm = ({ start }) => {
               } else {
                 return (
                   <div
-                    onTouchStart={touchStartHandler}
-                    onTouchEnd={touchEndHandler}
-                    onTouchCancel={touchCancelHandler}
-                    onTouchMove={touchMoveHandler}
-                    onClick={(e, id) => {
-                      console.log(item.id);
-                      console.log(e);
-                      e.preventDefault();
-                      // clickHandler(item.id);
-                    }}
-                    onAnimationEnd={(id) => {
-                      missHandler(id);
-                    }}
                     key={item.id}
                     id={item.id}
-                    className={
-                      item.newType === "tap" ? "Bdot BdotB" : "Bdot BdotY"
-                    }
+                    className="Edot"
                     style={{
                       left: `${item.x}px`,
                       animationDelay: `${item.time}ms`,
                     }}
-                  >
-                    {item.id}
-                  </div>
+                  ></div>
                 );
               }
             })}
