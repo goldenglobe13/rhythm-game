@@ -47,7 +47,7 @@ const Rhythm = ({ start }) => {
   const [streak, setStreak] = useState("");
 
   // console.log("Top");
-  // console.log(beats);
+  console.log(beats);
   // console.log(list);
   // console.log(notes.length);
   // console.log(acceptedList.length);
@@ -64,6 +64,10 @@ const Rhythm = ({ start }) => {
       setStreak("");
     } else {
       setStreak((prevState) => Number(prevState) + 1);
+    }
+    if (acceptedList[acceptedList.length - 1]?.type === "tap") {
+      const iD = Number(acceptedList[acceptedList.length - 1]?.tapId);
+      setBeats((prevState) => [...prevState].filter((item) => item.id !== iD));
     }
   }, [acceptedList]);
 
