@@ -34,8 +34,8 @@ const Rhythm = ({ start }) => {
   const body = document.body;
   const screenH = body.getBoundingClientRect().height;
   const screenW = body.getBoundingClientRect().width;
-  console.log(screenH);
-  console.log(screenW);
+  // console.log(screenH);
+  // console.log(screenW);
 
   let Y = 0.82 * screenH;
   let baseDur = 2 * (2 * screenH + 14);
@@ -64,7 +64,7 @@ const Rhythm = ({ start }) => {
       default:
         q = "Miss";
     }
-    console.log(q);
+    // console.log(q);
     return q;
   }
 
@@ -103,19 +103,19 @@ const Rhythm = ({ start }) => {
   const touchStartHandler = (e) => {
     const dur = new Date().getTime() - start;
     console.log("start");
-    console.log(e);
+    // console.log(e);
 
-    console.log(e.touches);
+    // console.log(e.touches);
     setList((prevState) => [...prevState, ...e.changedTouches]);
 
     const arrayOfDiffs = [...list, ...e.changedTouches].map((items) =>
       tileTouch.map((item) => Math.abs((item * screenW) / 100 - items.pageX))
     );
-    console.log(arrayOfDiffs);
+    //console.log(arrayOfDiffs);
     const arrayOfIndexes = arrayOfDiffs.map((item) =>
       item.indexOf(Math.min(...item))
     );
-    console.log(arrayOfIndexes);
+    //console.log(arrayOfIndexes);
     const tilesAct = arrayOfIndexes.map((item, i) => {
       return { tile: item, touch: [...list, ...e.changedTouches][i] };
     });
@@ -124,7 +124,7 @@ const Rhythm = ({ start }) => {
     const filteredTilesActive = tilesAct.filter(
       (item) => item.touch.identifier === [...e.changedTouches][0].identifier
     );
-    console.log(filteredTilesActive);
+    //console.log(filteredTilesActive);
     // setList((prevState) => [...e.changedTouches]);
     const tapList = [
       {
@@ -133,7 +133,7 @@ const Rhythm = ({ start }) => {
         tile: filteredTilesActive[0].tile,
       },
     ];
-    console.log(tapList);
+    //console.log(tapList);
 
     // const filteredTapListDur = notes.filter(
     //   (item) => Math.abs(item.time - tapList[0].dur) < 100
@@ -152,13 +152,13 @@ const Rhythm = ({ start }) => {
         if (filteredNotes.length === 0) {
           return;
         }
-        console.log(filteredNotes);
+        //console.log(filteredNotes);
         const filteredAcceptedList = acceptedList.filter((item) =>
           item?.type === "startSlide" || item?.type === "tap"
             ? item?.id === filteredNotes[0]?.id
             : false
         );
-        console.log(filteredAcceptedList);
+        //console.log(filteredAcceptedList);
         if (filteredAcceptedList.length === 0) {
           console.log("Single");
           // const filteredNotes = notes.filter(
@@ -168,10 +168,10 @@ const Rhythm = ({ start }) => {
           //     (item.type === "startSlide" || item.type === "tap")
           // );
 
-          console.log(filteredNotes);
+          //console.log(filteredNotes);
           const diffZero = diffPos(tapList, filteredNotes, 0);
-          console.log(filteredNotes[0]);
-          console.log(diffZero);
+          //console.log(filteredNotes[0]);
+          //console.log(diffZero);
           // if (diffZero <= 50) {
           //   setBeats((prevState) => {
           //     return [...prevState].filter(
@@ -182,16 +182,13 @@ const Rhythm = ({ start }) => {
           //     );
           //   });
           // }
-          let checkAcc = false;
           setAcceptedList((prevState) => {
             const Duplicate = [...prevState]?.filter(
               (item) => Number(item?.id) === filteredNotes[0].id
             );
-            console.log(Duplicate);
+            //console.log(Duplicate);
             if (Duplicate.length === 0) {
-              console.log(Duplicate);
-              checkAcc = true;
-              console.log(checkAcc);
+              //console.log(Duplicate);
               return [
                 ...prevState,
                 {
@@ -205,7 +202,6 @@ const Rhythm = ({ start }) => {
               return [...prevState];
             }
           });
-          console.log(checkAcc);
           setNotesState((prevState) =>
             [...prevState].filter(
               (item) => +item.id !== Number(filteredNotes[0]?.id)
@@ -224,7 +220,7 @@ const Rhythm = ({ start }) => {
 
   const touchMoveHandler = (e) => {
     const dur = new Date().getTime() - start;
-    console.log("Move");
+    // console.log("Move");
     const ch = [...e.changedTouches].map((item) => item.identifier);
     if (ch.length === 0) return;
     setList((prevState) =>
@@ -268,7 +264,7 @@ const Rhythm = ({ start }) => {
     const holdList = tilesAct.map((item) => {
       return { touch: item.touch, dur: dur, tile: item.tile };
     });
-    console.log(holdList);
+    //console.log(holdList);
 
     const filteredHoldList = notes.filter(
       (item) =>
@@ -279,10 +275,10 @@ const Rhythm = ({ start }) => {
           Number(item.tile) === Number(holdList[1]?.tile) &&
           Math.abs(+item.time + 0.87 * baseDur - holdList[0].dur) < 50)
     );
-    console.log(filteredHoldList);
+    //console.log(filteredHoldList);
 
     if (filteredHoldList.length === 0) return;
-    console.log(filteredHoldList);
+    //console.log(filteredHoldList);
     if (acceptedList.length < notes.length) {
       if (holdList.length > 0) {
         // const filteredNotes = notes.filter(
@@ -301,7 +297,7 @@ const Rhythm = ({ start }) => {
         if (filteredAccepted.length > 0) {
           return;
         }
-        console.log(filteredAccepted);
+        //console.log(filteredAccepted);
         // const filteredAcceptedList = acceptedList.filter((item) =>
         //   item?.type === "holdSlide"
         //     ? item?.endId === filteredHoldList[0]?.touch?.target ||
@@ -312,7 +308,7 @@ const Rhythm = ({ start }) => {
 
         if (filteredAccepted.length === 0) {
           if (filteredHoldList.length === 2) {
-            console.log("DoubleHold");
+            // console.log("DoubleHold");
             // const filteredNotes = notes.filter(
             //   (item) =>
             //     (item.endId === Number(filteredHoldList[0].touch.target.id) ||
@@ -348,14 +344,14 @@ const Rhythm = ({ start }) => {
             // console.log(diffDuration);
             // console.log(diffOne);
             // if (diffOne >= 30 || diffDuration > 300) return;
-            console.log(diffOne);
-            console.log(diffZero);
+            //console.log(diffOne);
+            //console.log(diffZero);
             if (diffOne >= quality.accepted && diffZero >= quality.accepted)
               return;
             // console.log(diffZero);
             // console.log(diffOne);
             if (diffZero < quality.accepted) {
-              console.log("diffZero");
+              // console.log("diffZero");
               setAcceptedList((prevState) => {
                 // console.log([...prevState]);
                 // console.log(firstFilteredNote[0].id);
@@ -365,9 +361,9 @@ const Rhythm = ({ start }) => {
                   // item?.realId === filteredNotes[0].id ||
                   // item?.realId === filteredNotes[filteredNotes.length - 1]?.id
                 );
-                console.log(Duplicate);
+                //console.log(Duplicate);
                 if (Duplicate.length === 0) {
-                  console.log(dur);
+                  // console.log(dur);
                   return [
                     ...prevState,
                     {
@@ -387,7 +383,7 @@ const Rhythm = ({ start }) => {
             }
 
             if (diffOne < quality.accepted) {
-              console.log("diffOne");
+              // console.log("diffOne");
               setAcceptedList((prevState) => {
                 // console.log([...prevState]);
                 // console.log(secondFilteredNote[0].id);
@@ -396,9 +392,9 @@ const Rhythm = ({ start }) => {
                   // item?.realId === filteredNotes[0].id ||
                   // item?.realId === filteredNotes[filteredNotes.length - 1]?.id
                 );
-                console.log(Duplicate);
+                // console.log(Duplicate);
                 if (Duplicate.length === 0) {
-                  console.log(dur);
+                  //console.log(dur);
                   return [
                     ...prevState,
                     {
@@ -425,7 +421,7 @@ const Rhythm = ({ start }) => {
             //   )
             // );
           } else {
-            console.log("SingleHold");
+            //console.log("SingleHold");
             // console.log(holdList[0]?.dur);
             const filteredHoldList = notes.filter(
               (item) =>
@@ -497,22 +493,22 @@ const Rhythm = ({ start }) => {
       );
     });
 
-    console.log([...tilesActive]);
-    console.log(e.changedTouches);
+    //console.log([...tilesActive]);
+    // console.log(e.changedTouches);
     const filteredTiles = [...tilesActive].filter(
       (item) =>
         item.touch.identifier !== e.changedTouches[0].identifier ||
         item.touch.identifier !==
           e.changedTouches[e.changedTouches.length - 1].identifier
     );
-    console.log(filteredTiles);
+    //console.log(filteredTiles);
 
     setTilesActive(filteredTiles);
 
     const filteredTilesActive = [...tilesActive].filter(
       (item) => item.touch.identifier === [...e.changedTouches][0].identifier
     );
-    console.log(filteredTilesActive);
+    // console.log(filteredTilesActive);
     // setList((prevState) => [...e.changedTouches]);
     const endList = [
       {
@@ -521,7 +517,7 @@ const Rhythm = ({ start }) => {
         tile: filteredTilesActive[0].tile,
       },
     ];
-    console.log(endList);
+    //console.log(endList);
 
     const filteredEndList = notes.filter(
       (item) =>
@@ -529,7 +525,7 @@ const Rhythm = ({ start }) => {
         Number(item.tile) === Number(endList[0]?.tile) &&
         Math.abs(+item.time + 0.87 * baseDur - endList[0].dur) < 200
     );
-    console.log(filteredEndList);
+    //console.log(filteredEndList);
     if (filteredEndList.length === 0) return;
     if (acceptedList.length < notes.length) {
       if (endList.length > 0) {
@@ -546,7 +542,7 @@ const Rhythm = ({ start }) => {
               item?.realId === filteredEndList[1]?.id
             : false
         );
-        console.log(filteredAcceptedList);
+        //console.log(filteredAcceptedList);
         if (filteredAcceptedList.length === 0) {
           console.log("SingleEnd");
           console.log(filteredEndList);
@@ -622,14 +618,14 @@ const Rhythm = ({ start }) => {
 
   const missHandler = (id) => {
     if (acceptedList.length < notes.length) {
-      console.log(id.target.id);
+      // console.log(id.target.id);
       // console.log(acceptedList);
       const filteredAcceptedList = acceptedList.filter((item) =>
         item?.endType
           ? item?.realId === Number(id.target.id)
           : Number(item?.id) === Number(id.target.id)
       );
-      console.log(filteredAcceptedList);
+      //  console.log(filteredAcceptedList);
       if (filteredAcceptedList.length > 0) {
         return;
       } else {
@@ -811,9 +807,7 @@ const Rhythm = ({ start }) => {
                       animationDelay: `${item.time}ms`,
                       "--2-slide-top": `${2 * screenH + 16}px`,
                     }}
-                  >
-                    {i + 1}
-                  </div>
+                  ></div>
                 );
               })}
           {start &&
