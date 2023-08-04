@@ -40,7 +40,7 @@ const Rhythm = ({ start }) => {
   let Y = 0.82 * screenH;
   let baseDur = 2 * (2 * screenH + 14);
   r.style.setProperty("--base-duration", `${baseDur}ms`);
-  const quality = { accepted: 50, good: 35, perfect: 20 };
+  const quality = { accepted: 80, good: 50, perfect: 30 };
   function diffPos(first, second, index) {
     console.log(Y);
     const d =
@@ -145,7 +145,7 @@ const Rhythm = ({ start }) => {
         filteredNotes = notesState.filter(
           (item) =>
             Math.abs(+item.time + 0.87 * baseDur - Number(tapList[0]?.dur)) <
-              200 &&
+              300 &&
             Number(item.tile) === Number(tapList[0]?.tile) &&
             (item.type === "startSlide" || item.type === "tap")
         );
@@ -270,10 +270,10 @@ const Rhythm = ({ start }) => {
       (item) =>
         (item.type === "holdSlide" &&
           Number(item.tile) === Number(holdList[0]?.tile) &&
-          Math.abs(+item.time + 0.87 * baseDur - holdList[0].dur) < 100) ||
+          Math.abs(+item.time + 0.87 * baseDur - holdList[0].dur) < 200) ||
         (item.type === "holdSlide" &&
           Number(item.tile) === Number(holdList[1]?.tile) &&
-          Math.abs(+item.time + 0.87 * baseDur - holdList[0].dur) < 100)
+          Math.abs(+item.time + 0.87 * baseDur - holdList[0].dur) < 200)
     );
     //console.log(filteredHoldList);
 
@@ -426,7 +426,7 @@ const Rhythm = ({ start }) => {
             const filteredHoldList = notes.filter(
               (item) =>
                 Number(item.tile) === Number(holdList[0]?.tile) &&
-                Math.abs(+item.time + 0.87 * baseDur - holdList[0].dur) < 100
+                Math.abs(+item.time + 0.87 * baseDur - holdList[0].dur) < 200
             );
             const diffZero = diffPos(holdList, filteredHoldList, 0);
             // const diffZero = Math.abs(
