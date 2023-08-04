@@ -270,10 +270,10 @@ const Rhythm = ({ start }) => {
       (item) =>
         (item.type === "holdSlide" &&
           Number(item.tile) === Number(holdList[0]?.tile) &&
-          Math.abs(+item.time + 0.87 * baseDur - holdList[0].dur) < 50) ||
+          Math.abs(+item.time + 0.87 * baseDur - holdList[0].dur) < 100) ||
         (item.type === "holdSlide" &&
           Number(item.tile) === Number(holdList[1]?.tile) &&
-          Math.abs(+item.time + 0.87 * baseDur - holdList[0].dur) < 50)
+          Math.abs(+item.time + 0.87 * baseDur - holdList[0].dur) < 100)
     );
     //console.log(filteredHoldList);
 
@@ -523,7 +523,7 @@ const Rhythm = ({ start }) => {
       (item) =>
         item.type === "endSlide" &&
         Number(item.tile) === Number(endList[0]?.tile) &&
-        Math.abs(+item.time + 0.87 * baseDur - endList[0].dur) < 200
+        Math.abs(+item.time + 0.87 * baseDur - endList[0].dur) < 300
     );
     //console.log(filteredEndList);
     if (filteredEndList.length === 0) return;
