@@ -426,7 +426,7 @@ const Rhythm = ({ start }) => {
             const filteredHoldList = notes.filter(
               (item) =>
                 Number(item.tile) === Number(holdList[0]?.tile) &&
-                Math.abs(+item.time + 0.87 * baseDur - holdList[0].dur) < 50
+                Math.abs(+item.time + 0.87 * baseDur - holdList[0].dur) < 100
             );
             const diffZero = diffPos(holdList, filteredHoldList, 0);
             // const diffZero = Math.abs(
