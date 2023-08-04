@@ -2,15 +2,6 @@ import { useState } from "react";
 import "./Rhythm.css";
 import Papa from "papaparse";
 
-const tileList = [
-  10.237, 16.79, 23.33, 29.868, 36.408, 42.99, 50, 57.005, 63.591, 70.131,
-  76.669, 83.208, 89.763,
-];
-
-const tileTouchDisplay = [
-  0, 8.35, 16.68, 25, 33.34, 41.67, 50, 58.33, 66.66, 75, 83.32, 91.65, 100,
-];
-
 function exportToCsv(filename, rows) {
   var processRow = function (row) {
     var finalVal = "";
@@ -126,7 +117,7 @@ const RhythmRec = ({ start }) => {
         notesToPersNew = [
           ...notesToPersNew,
           {
-            x: tileTouchDisplay[+item.tile],
+            x: item.x,
             time: item.time,
             id: i + counter + 1,
             endId: Number(item.endId) === 0 ? 0 : idList[+item.endId - 1],
@@ -176,11 +167,7 @@ const RhythmRec = ({ start }) => {
 
     if (notes.length === 0) {
       notes = cList.map((item, i) => {
-        const arrayOfDiffs = tileList.map((items) =>
-          Math.abs(items - mappedDivsList[i].x)
-        );
-        const arrayOfIndexes = arrayOfDiffs.indexOf(Math.min(...arrayOfDiffs));
-        return { ...item, x: mappedDivsList[i].x, tile: arrayOfIndexes };
+        return { ...item, x: mappedDivsList[i].x };
       });
     }
 
@@ -409,45 +396,37 @@ const RhythmRec = ({ start }) => {
               );
             })}
           </div>
-          <div
-            style={{
-              left: `17.68%`,
-              top: `90%`,
-              width: `15.9%`,
-            }}
-            // className={holdingEffect ? "dot holdEffect" : "dot"}
-            className={"tile tileR"}
-          ></div>
-          <div
-            style={{ left: `90.52%`, top: `87.5%` }}
+
+          {/* <div
+            style={{ left: `90.52%`, top: `710px` }}
             // className={holdingEffect ? "dot holdEffect" : "dot"}
             className={"Bdot BdotB"}
           ></div>
           <div
-            style={{ left: `70.26%`, top: `87.5%` }}
+            style={{ left: `70.26%`, top: `710px` }}
             // className={holdingEffect ? "dot holdEffect" : "dot"}
             className={"Bdot BdotB"}
           ></div>
           <div
-            style={{ left: `60.13%`, top: `87.5%` }}
+            style={{ left: `60.13%`, top: `710px` }}
             // className={holdingEffect ? "dot holdEffect" : "dot"}
             className={"Bdot BdotB"}
           ></div>
           <div
-            style={{ left: `50%`, top: `87.5%` }}
+            style={{ left: `50%`, top: `710px` }}
             // className={holdingEffect ? "dot holdEffect" : "dot"}
             className={"Bdot BdotB"}
           ></div>
           <div
-            style={{ left: `29.74%`, top: `87.5%` }}
+            style={{ left: `29.74%`, top: `710px` }}
             // className={holdingEffect ? "dot holdEffect" : "dot"}
             className={"Bdot BdotB"}
           ></div>
           <div
-            style={{ left: `9.48%`, top: `87.5%` }}
+            style={{ left: `9.48%`, top: `710px` }}
             // className={holdingEffect ? "dot holdEffect" : "dot"}
             className={"Bdot BdotB"}
-          ></div>
+          ></div> */}
 
           {list.map((touch, i) => {
             return (
