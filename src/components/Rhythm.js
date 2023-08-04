@@ -806,6 +806,7 @@ const Rhythm = ({ start }) => {
                     style={{
                       left: `${item.x}%`,
                       animationDelay: `${item.time}ms`,
+                      "--2-slide-top": `${2 * screenH + 16}px`,
                     }}
                   >
                     {i + 1}

@@ -263,7 +263,7 @@ body {
 
   100% {
     /* top: 452px; */
-    top: 800px;
+    top: var(--2-slide-top);
   }
 }
 
