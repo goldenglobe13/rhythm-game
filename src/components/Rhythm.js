@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Rhythm.css";
 
-// const r = document.querySelector(":root");
+const r = document.querySelector(":root");
 // let Y = 339.86;
 
 const tileTouchDisplay = [
@@ -38,6 +38,8 @@ const Rhythm = ({ start }) => {
   console.log(screenW);
 
   let Y = 0.82 * screenH;
+  let baseDur = 2 * (2 * screenH + 14);
+  r.style.setProperty("--base-duration", `${baseDur}ms`);
   const quality = { accepted: 50, good: 35, perfect: 20 };
   function diffPos(first, second, index) {
     console.log(Y);
@@ -142,7 +144,8 @@ const Rhythm = ({ start }) => {
       if (tapList.length > 0) {
         filteredNotes = notesState.filter(
           (item) =>
-            Math.abs(+item.time + 1392 - Number(tapList[0]?.dur)) < 200 &&
+            Math.abs(+item.time + 0.87 * baseDur - Number(tapList[0]?.dur)) <
+              200 &&
             Number(item.tile) === Number(tapList[0]?.tile) &&
             (item.type === "startSlide" || item.type === "tap")
         );
@@ -271,10 +274,10 @@ const Rhythm = ({ start }) => {
       (item) =>
         (item.type === "holdSlide" &&
           Number(item.tile) === Number(holdList[0]?.tile) &&
-          Math.abs(+item.time + 1392 - holdList[0].dur) < 50) ||
+          Math.abs(+item.time + 0.87 * baseDur - holdList[0].dur) < 50) ||
         (item.type === "holdSlide" &&
           Number(item.tile) === Number(holdList[1]?.tile) &&
-          Math.abs(+item.time + 1392 - holdList[0].dur) < 50)
+          Math.abs(+item.time + 0.87 * baseDur - holdList[0].dur) < 50)
     );
     console.log(filteredHoldList);
 
@@ -427,7 +430,7 @@ const Rhythm = ({ start }) => {
             const filteredHoldList = notes.filter(
               (item) =>
                 Number(item.tile) === Number(holdList[0]?.tile) &&
-                Math.abs(+item.time + 1392 - holdList[0].dur) < 50
+                Math.abs(+item.time + 0.87 * baseDur - holdList[0].dur) < 50
             );
             const diffZero = diffPos(holdList, filteredHoldList, 0);
             // const diffZero = Math.abs(
@@ -524,7 +527,7 @@ const Rhythm = ({ start }) => {
       (item) =>
         item.type === "endSlide" &&
         Number(item.tile) === Number(endList[0]?.tile) &&
-        Math.abs(+item.time + 1392 - endList[0].dur) < 200
+        Math.abs(+item.time + 0.87 * baseDur - endList[0].dur) < 200
     );
     console.log(filteredEndList);
     if (filteredEndList.length === 0) return;
@@ -822,7 +825,7 @@ const Rhythm = ({ start }) => {
                     id={item.id}
                     key={item.id}
                     style={{
-                      "--1-slide-top": `calc((1600px + ${item.dTime}px)*3/6 + 0px)`,
+                      "--1-slide-top": `calc((${baseDur}px + ${item.dTime}px)*3/6 + 0px)`,
                       width: "1000",
                       height: "10000",
                       animationDelay: `${item.time}ms`,
