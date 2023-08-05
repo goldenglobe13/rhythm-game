@@ -187,6 +187,7 @@ body {
   /* transform: rotateX(var(--deg)) translate(-50%, -50%); */
   transform: rotateX(15deg) translate(-50%, -50%);
   /* display: none; */
+  opacity: 0;
 }
 
 .BdotY {
@@ -211,7 +212,7 @@ body {
   z-index: 29;
   /* transform: rotateX(var(--deg)) translate(-50%, -50%); */
   transform: rotateX(45deg) translate(-50%, -50%);
-  /* background-color: transparent; */
+  background-color: transparent;
 }
 
 .Edot {
@@ -228,7 +229,7 @@ body {
   z-index: -5;
   /* transform: rotateX(var(--deg)) translate(-50%, -50%); */
   transform: rotateX(45deg) translate(-50%, -50%);
-  /* background-color: transparent; */
+  background-color: transparent;
 }
 
 .Ddot {
@@ -248,22 +249,24 @@ body {
 
 @keyframes slide {
   0% {
+    opacity: 1;
   }
 
   100% {
     top: var(--1-slide-top);
+    opacity: 1;
   }
 }
 
 @keyframes moving {
   0% {
-    /* top: -148px; */
     top: 0px;
+    opacity: 1;
   }
 
   100% {
-    /* top: 452px; */
     top: var(--2-slide-top);
+    opacity: 1;
   }
 }
 
@@ -273,6 +276,7 @@ body {
   animation-timing-function: linear;
   animation-name: slide;
   /* display: none; */
+  opacity: 0;
 }
 
 .lineStroke {

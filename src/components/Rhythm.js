@@ -42,7 +42,7 @@ const Rhythm = ({ start }) => {
   r.style.setProperty("--base-duration", `${baseDur}ms`);
   const quality = { accepted: 70, good: 35, perfect: 20 };
   function diffPos(first, second, index) {
-    console.log(Y);
+    // console.log(Y);
     const d =
       Math.abs(first[index].touch.pageX - (second[0]?.x * screenW) / 100) +
       Math.abs(first[index].touch.pageY - Y);
@@ -87,17 +87,6 @@ const Rhythm = ({ start }) => {
     } else {
       setStreak((prevState) => Number(prevState) + 1);
     }
-    // if (acceptedList[acceptedList.length - 1]?.type === "tap") {
-    //   const iD = Number(acceptedList[acceptedList.length - 1]?.tapId);
-    //   setBeats((prevState) => [...prevState].filter((item) => item.id !== iD));
-    // }
-    // setList((prevState) =>
-    //   [...prevState].filter((item) => {
-    //     console.log(item);
-    //     console.log(item.target.id);
-    //     return item.target.id !== "";
-    //   })
-    // );
   }, [acceptedList]);
 
   const touchStartHandler = (e) => {
@@ -108,16 +97,19 @@ const Rhythm = ({ start }) => {
     // console.log(e.touches);
     setList((prevState) => [...prevState, ...e.changedTouches]);
 
-    const arrayOfDiffs = [...list, ...e.changedTouches].map((items) =>
+    // const arrayOfDiffs = [...list, ...e.changedTouches].map((items) =>
+    //   tileTouch.map((item) => Math.abs((item * screenW) / 100 - items.pageX))
+    // );
+    const arrayOfDiffs = [...e.touches].map((items) =>
       tileTouch.map((item) => Math.abs((item * screenW) / 100 - items.pageX))
     );
-    //console.log(arrayOfDiffs);
+    // console.log(arrayOfDiffs);
     const arrayOfIndexes = arrayOfDiffs.map((item) =>
       item.indexOf(Math.min(...item))
     );
-    //console.log(arrayOfIndexes);
+    // console.log(arrayOfIndexes);
     const tilesAct = arrayOfIndexes.map((item, i) => {
-      return { tile: item, touch: [...list, ...e.changedTouches][i] };
+      return { tile: item, touch: [...e.touches][i] };
     });
     setTilesActive(tilesAct);
 
@@ -125,7 +117,6 @@ const Rhythm = ({ start }) => {
       (item) => item.touch.identifier === [...e.changedTouches][0].identifier
     );
     //console.log(filteredTilesActive);
-    // setList((prevState) => [...e.changedTouches]);
     const tapList = [
       {
         touch: filteredTilesActive[0].touch,
@@ -135,10 +126,6 @@ const Rhythm = ({ start }) => {
     ];
     //console.log(tapList);
 
-    // const filteredTapListDur = notes.filter(
-    //   (item) => Math.abs(item.time - tapList[0].dur) < 100
-    // );
-    // if (filteredTapListDur.length === 0) return;
     let filteredNotes = [];
     if (acceptedList.length < notes.length) {
       if (tapList.length > 0) {
@@ -160,28 +147,11 @@ const Rhythm = ({ start }) => {
         );
         //console.log(filteredAcceptedList);
         if (filteredAcceptedList.length === 0) {
-          console.log("Single");
-          // const filteredNotes = notes.filter(
-          //   (item) =>
-          //     Math.abs(+item.time + 1392 - Number(tapList[0]?.dur)) < 200 &&
-          //     Number(item.tile) === Number(tapList[0]?.tile) &&
-          //     (item.type === "startSlide" || item.type === "tap")
-          // );
+          // console.log("Single");
 
           //console.log(filteredNotes);
           const diffZero = diffPos(tapList, filteredNotes, 0);
-          //console.log(filteredNotes[0]);
           //console.log(diffZero);
-          // if (diffZero <= 50) {
-          //   setBeats((prevState) => {
-          //     return [...prevState].filter(
-          //       (item) =>
-          //         Number(item.id) !==
-          //           Number(filteredTapList[0].touch[0].target.id) &&
-          //         item.type === "tap"
-          //     );
-          //   });
-          // }
           setAcceptedList((prevState) => {
             const Duplicate = [...prevState]?.filter(
               (item) => Number(item?.id) === filteredNotes[0].id
