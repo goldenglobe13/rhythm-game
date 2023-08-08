@@ -254,8 +254,8 @@ body {
   }
 
   100% {
-    /* transform: translate(0, calc(-5000px + var(--1-slide-top) + 16px)); */
-    top: var(--1-slide-top);
+    transform: translate(0, calc(-5000px + var(--1-slide-top) + 16px));
+    /* top: var(--1-slide-top); */
     opacity: 1;
   }
 }
@@ -267,8 +267,8 @@ body {
   }
 
   100% {
-    transform: translate(-50%, var(--2-slide-top));
-    /* top: var(--2-slide-top); */
+    /* transform: translate(-50%, var(--2-slide-top)); */
+    top: var(--2-slide-top);
     opacity: 1;
   }
 }
