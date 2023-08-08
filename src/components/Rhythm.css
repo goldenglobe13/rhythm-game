@@ -186,9 +186,8 @@ body {
   animation-timing-function: linear;
   /* transform: rotateX(var(--deg)) translate(-50%, -50%); */
   transform: rotateX(15deg) translate3d(-50%, -50%, 0);
-  /* display: none; */
   animation-fill-mode: forwards;
-  opacity: 0;
+  /* display: none; */
 }
 
 .BdotY {
@@ -213,7 +212,7 @@ body {
   z-index: 29;
   /* transform: rotateX(var(--deg)) translate(-50%, -50%); */
   transform: rotateX(45deg) translate3d(-50%, -50%, 0);
-  background-color: transparent;
+  animation-fill-mode: forwards;
 }
 
 .Edot {
@@ -231,6 +230,7 @@ body {
   /* transform: rotateX(var(--deg)) translate(-50%, -50%); */
   transform: rotateX(45deg) translate3d(-50%, -50%, 0);
   background-color: transparent;
+  animation-fill-mode: forwards;
 }
 
 .Ddot {
@@ -250,26 +250,24 @@ body {
 
 @keyframes slide {
   0% {
-    opacity: 1;
   }
 
   100% {
-    transform: translate(0, calc(-5000px + var(--1-slide-top) + 16px));
+    transform: translate(0, calc(-5000px + var(--1-slide-top) + 20px));
     /* top: var(--1-slide-top); */
-    opacity: 1;
+    display: none;
   }
 }
 
 @keyframes moving {
   0% {
     /* top: 0px; */
-    opacity: 1;
   }
 
   100% {
-    /* transform: translate(-50%, var(--2-slide-top)); */
-    top: var(--2-slide-top);
-    opacity: 1;
+    transform: translate(-50%, var(--2-slide-top));
+    /* top: var(--2-slide-top); */
+    display: none;
   }
 }
 
@@ -279,9 +277,8 @@ body {
   transform: translate(0, -50%);
   animation-timing-function: linear;
   animation-name: slide;
-  /* display: none; */
   animation-fill-mode: forwards;
-  opacity: 0;
+  /* display: none; */
 }
 
 .lineStroke {
