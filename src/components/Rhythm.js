@@ -793,7 +793,6 @@ const Rhythm = ({ start }) => {
                       width: "1000",
                       height: "10000",
                       animationDelay: `${item.time}ms`,
-                      top: `0px`,
                       animationDuration: `calc(var(--base-duration) + ${item.dTime}ms)`,
                     }}
                   >
