@@ -285,6 +285,11 @@ body {
   /* display: none; */
 }
 
+svg {
+  height: 100%;
+  width: 100%;
+}
+
 .lineStroke {
   /* fill: red; */
   stroke: yellow;

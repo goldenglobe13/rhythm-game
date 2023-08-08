@@ -790,8 +790,8 @@ const Rhythm = ({ start }) => {
                     key={item.id}
                     style={{
                       "--1-slide-top": `calc((${baseDur}px + ${item.dTime}px)*3/6 + 0px)`,
-                      width: "1000",
-                      height: "10000",
+                      width: "1000px",
+                      height: "10000px",
                       animationDelay: `${item.time}ms`,
                       animationDuration: `calc(var(--base-duration) + ${item.dTime}ms)`,
                     }}
