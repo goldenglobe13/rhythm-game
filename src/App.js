@@ -30,9 +30,6 @@ function App() {
   useEffect(() => {
     if (!goFull) return;
     const appContainer = document.getElementById("appContainer");
-    console.log(appContainer);
-    console.log(appContainer?.requestFullscreen);
-    console.log(appContainer?.mozRequestFullscreen);
     if (appContainer?.requestFullscreen) {
       appContainer?.requestFullscreen();
     } else if (appContainer?.mozRequestFullscreen) {
